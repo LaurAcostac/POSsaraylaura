@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  </head>
+</head>
+
+<body>
+
+  <%- include ('parcials/navbarAdmin')%>
+    <div class="mb-3 m-5">
+        <form action="crearVendedores" method="post">
+        <label for="nombre" class="form-label">Nombre:</label>
+        <input type="text" name="nombreVendedor" class="form-control" id="nombre" placeholder="ingrese el nombre" >
+
+        <label for="apellido" class="form-label">Apellido:</label>
+        <input type="text" name="apellidoVendedor" class="form-control" id="apellido" placeholder="ingrese el apellido">
+
+        <label for="correo" class="form-label">Correo:</label>
+        <input type="email" name="correoVendedor" class="form-control" id="correo" placeholder="ingrese el apellido">
+
+        <label for="documento" class="form-label">Documento</label>
+        <input type="text" name="documentoVendedor" class="form-control" id="documento" placeholder="ingrese su documento" >
+
+        <label for="contrasenavendedor" class="form-label">Contraseña</label>
+        <input type="password" name="contrasenaVendedor" class="form-control" id="contrasenavendedor" placeholder="Ingrese la contraseña">
+
+        <label for="ventasVendedor" class="form-label">Ventas Despachadas:</label>
+        <input type="text" name="ventasdVendedor" class="form-control" id="ventasVendedor" placeholder="ingrese el número de ventas">
+
+        <input type="submit" class="btn btn-secondary m-5" value="Enviar"> 
+    </form> 
+    </div>
+
+
+
+
+    <table class="table table-striped table-bordered m-5 width:100%">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Documento</th>
+            <th scope="col">Contraseña</th>
+            <th scope="col">Ventas Despachadas</th>
+            <th scope="col">Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% vendedores.forEach(function(vendedor){ %>
+          <tr>
+            <td><%=vendedor._id%></td>
+            <td><%=vendedor.nombre%></td>
+            <td><%=vendedor.apellido%></td>
+            <td><%=vendedor.correo%></td>
+            <td><%=vendedor.documento%></td>
+            <td><%=vendedor.contrasena%></td>
+            <td><%=vendedor.ventasDespachadas%></td>
+            <td><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalactvendedores" onclick="llenarVendedores(`<%=vendedor._id%>`, `<%=vendedor.nombre%>`, `<%=vendedor.apellido%>`, `<%=vendedor.documento%>`,`<%=vendedor.ventasDespachadas%>`)">
+                Editar
+              </button>
+              <a href="eliminarVendedor/<%=vendedor._id%>">Eliminar</a>
+            </td>
+
+          </tr>
+          <% })%>
+        </tbody>
+      </table>
+
+
+      <!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="modalactvendedores" tabindex="-1" aria-labelledby="modalactLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar producto</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="actualizarVendedores" method="POST">
+            
+            <label for="idactvendedor">Id:</label>
+            <input type="text" name="idVendedor" class="form-control" id="idactvendedor" placeholder="" readonly>
+
+            <label for="nomactvendedor" class="form-label">Nombre:</label>
+            <input type="text" name="nombreactVendedor" class="form-control" id="nomactvendedor" placeholder="ingrese el nombre" >
+
+            <label for="apeactvendedor" class="form-label">Apellido:</label>
+            <input type="text" name="apellidoactVendedor" class="form-control" id="apeactvendedor" placeholder="ingrese su apellido">
+
+            <label for="correoactvendedor" class="form-label">Correo:</label>
+            <input type="email" name="correoactVendedor" class="form-control" id="correoactvendedor" placeholder="ingrese el apellido">
+    
+            <label for="documentactvendedor" class="form-label">Documento:</label>
+            <input type="text" name="documentoactVendedor" class="form-control" id="documentactvendedor" placeholder="ingrese la descripción" >
+
+            <label for="contrasenaactvendedor" class="form-label">Contraseña</label>
+            <input type="password" name="contrasenaactVendedor" class="form-control" id="contrasenaactvendedor" placeholder="Ingrese la contraseña">
+    
+            <label for="ventasact" class="form-label">Ventas despachadas</label>
+            <input type="text" name="ventasactVendedor" class="form-control" id="ventasact" placeholder="ingrese el stock">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary" >Actualizar cambios</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function llenarVendedores(id,nombre,apellido,correo,documento,contrasena,ventas){
+      idactvendedor.value = id;
+      nomactvendedor.value = nombre;
+      apeactvendedor.value = apellido;
+      correoactvendedor.value = correo
+      documentactvendedor.value = documento;
+      contrasenaactvendedor.value = contrasena;
+      ventasact.value = ventas;
+
+    }
+    //arreglar
+  </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+  </body>
+
+</html>

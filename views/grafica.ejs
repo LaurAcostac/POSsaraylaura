@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfica de Cantidad de Productos en Stock</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="graficaStock" width="400" height="200"></canvas>
+
+    <script>
+        // Datos ficticios de productos (precio y cantidad en stock)
+        const productos = [];
+        for (let i = 0; i < 200; i++) {
+          productos.push({
+            precio: Math.random() * 1000, // Precio aleatorio
+            cantidadEnStock: Math.random() * 100 // Cantidad en stock aleatoria
+          });
+        }
+    
+        const ctx = document.getElementById('graficaStock').getContext('2d');
+        new Chart(ctx, {
+          type: 'scatter',
+          data: {
+            datasets: [
+              {
+                label: 'Productos',
+                data: productos,
+                backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                pointRadius: 6 // Tamaño de los puntos
+              }
+            ]
+          },
+          options: {
+            scales: {
+              x: {
+                type: 'linear',
+                position: 'bottom',
+                title: {
+                  display: true,
+                  text: 'Precio'
+                }
+              },
+              y: {
+                min: 0,
+                title: {
+                  display: true,
+                  text: 'Cantidad en Stock'
+                }
+              }
+            }
+          }
+        });
+      </script>
+</body>
+</html>
