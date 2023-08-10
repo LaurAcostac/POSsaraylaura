@@ -31,7 +31,7 @@ router.get('/mostrarperfil', acciones.verifacionToken, acciones.mostrarFormPerfi
 router.get('/cerrarsesion', acciones.cerrarSesion);
 router.get('/recuperarContrasena', acciones.recuperarContrasena);
 router.post('/enviarCorreo', acciones.comprobarRecuperacion);
-
+router.get('/eliminarusuario/:_id', acciones.eliminarUsuario);
 
 router.get('/autenticar', accionesAdmin.enviarEmail);
 router.get('/formularioCompra', acciones.mostrarCompra);
