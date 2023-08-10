@@ -28,6 +28,7 @@ router.post('/registrar', acciones.crearUsuario);
 router.get('/iniciosesion', acciones.mostrarInicioSesion);
 router.post('/autenticarInicio', acciones.iniciarUsuario);
 router.get('/mostrarperfil', acciones.verifacionToken, acciones.mostrarFormPerfil);
+router.get('/cerrarsesion', acciones.cerrarSesion);
 router.get('/recuperarContrasena', acciones.recuperarContrasena);
 router.post('/enviarCorreo', acciones.comprobarRecuperacion);
 

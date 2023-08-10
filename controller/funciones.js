@@ -114,12 +114,11 @@ exports.iniciarUsuario = async (req, res) => {
 };
 
 exports.verifacionToken = async (req, res, next) =>{
-  const token = (req.headers.cookie ).slice(6);
   try {
-    if(!token){
-      res.render('inicioSesion');
-      return;
+    if(!req.headers.cookie){
+      return res.render('inicioSesion');
     }
+    const token =(req.headers.cookie).slice(6);
     jwt.verify(token, jwtSecret, (err, user)=>{
       if(err){
         return res.status(401).json({
@@ -150,6 +149,10 @@ exports.mostrarFormPerfil = async (req, res) => {
     console.log(error)
   }
 
+}
+
+exports.cerrarSesion = async (req, res) => {
+  res.clearCookie("token").redirect('principal')
 }
 
 exports.recuperarContrasena = async(req, res) => {

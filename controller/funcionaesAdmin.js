@@ -139,9 +139,13 @@ exports.actualizarVendedores = async (req, res) => {
                       contrasena: req.body.contrasenaactVendedor,
                       ventasDespachadas: req.body.ventasactVendedor
                     }
+  const actualizarUser = {correo: req.body.correoactVendedor,
+                          contrasena: req.body.contrasenaactVendedor
+  }
   console.log(actualizar)
   console.log(editarid)
   await vendedorcitos.findOneAndUpdate(editarid, actualizar)
+  await usuariecitos.findOnedAndUpdate(actualizar.correo, actualizarUser)
   res.redirect('accionesVendedores')
   }
 
