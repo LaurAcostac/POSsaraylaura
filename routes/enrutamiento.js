@@ -33,6 +33,17 @@ router.get('/iniciosesion', acciones.mostrarInicioSesion); //Mostrar formulario 
 router.get('/mostrarperfil', acciones.verificacionToken, acciones.mostrarFormPerfil); //Mostrar datos del perfil y verficiación del token
 router.get('/recuperarContrasena', acciones.recuperarContrasena);//formulario de envío de recuperación
 
+router.get('/formularioregistro', acciones.mostrarRegistro);
+router.post('/registrar', acciones.crearUsuario);
+router.get('/iniciosesion', acciones.mostrarInicioSesion);
+router.post('/autenticarInicio', acciones.iniciarUsuario);
+router.get('/mostrarperfil', acciones.verifacionToken, acciones.mostrarFormPerfil);
+router.get('/cerrarsesion', acciones.cerrarSesion);
+router.get('/recuperarContrasena', acciones.recuperarContrasena);
+router.post('/enviarCorreo', acciones.comprobarRecuperacion);
+router.get('/eliminarusuario/:_id', acciones.eliminarUsuario);
+
+
 router.post('/registrar', acciones.crearUsuario); //Post registro CRUD cliente
 router.post('/autenticarInicio', acciones.iniciarUsuario); //Validación para inicio de sesion
 router.get('/cerrarsesion', acciones.cerrarSesion); //Opción para borrar la cookie y cerrar la sesión
