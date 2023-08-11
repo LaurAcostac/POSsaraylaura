@@ -40,6 +40,7 @@ exports.mostrarCompra = async (req, res) => {
   res.render('formularioCompra')
 }
 
+//CRUD VISTA CLIENTE
 exports.crearUsuario = async (req, res) => {
   let correo = req.body.correoregistrar;
   console.log(correo);
@@ -73,6 +74,7 @@ exports.crearUsuario = async (req, res) => {
   }
 }
 
+//Inicio de sesión, validación, almacenamiento de la cookie e ingreso al perfil
 exports.iniciarUsuario = async (req, res) => {
   const Correo = req.body.correoiniciar;
   const Contrasena = req.body.contrasenainiciar;
@@ -113,6 +115,9 @@ exports.iniciarUsuario = async (req, res) => {
   }
 };
 
+
+//Verificación de existencia de un token, en caso de no ser así crearlo
+exports.verificacionToken = async (req, res, next) =>{
 exports.eliminarUsuario = async (req, res) =>{
   let id= req.params._id;
   let cliente= await clientecitos.findOneAndDelete ({"_id":id});
@@ -142,6 +147,7 @@ exports.verifacionToken = async (req, res, next) =>{
   }
 }
 
+//Mostrar formulario que contiene los datos del usuario
 exports.mostrarFormPerfil = async (req, res) => {
   const idUsuario = req.id
   const usuario = await usuariecitos.findById({"_id": idUsuario})
@@ -158,6 +164,22 @@ exports.mostrarFormPerfil = async (req, res) => {
   }
 
 }
+//Update
+exports.actualizarPerfil = async (req, res) =>{
+    const editarid = {_id: req.body.idcliente}
+    const actualizar = {nombre: req.body.nombrepCliente,
+                        apellido: req.body.apellidopCliente,
+                        telefono: req.body.telefonopCliente,
+                        correo: req.body.correopCliente,
+                      };
+    const actualizarUser = {correo: req.body.correopCliente,
+}
+    console.log(actualizar)
+    console.log(editarid)
+    await clientecitos.findOneAndUpdate(editarid, actualizar)
+    await usuariecitos.findOnedAndUpdate(actualizar.correo, actualizarUser)
+    res.redirect('autenticarInicio')
+    };
 
 exports.cerrarSesion = async (req, res) => {
   res.clearCookie("token").redirect('principal')
@@ -201,6 +223,8 @@ exports.comprobarRecuperacion = async(req, res) =>{
     return res.send('tu contraseña ha sido enviada')
 };
 }
+
+
 //
 // exports.enviarEmailcampo = (req, res) =>{
 //     const nodemailer = require('nodemailer');

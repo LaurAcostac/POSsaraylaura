@@ -64,33 +64,33 @@ exports.autenticar = (req, res)=>{
   res.render('autenticacion')
 }
 
-exports.enviarEmail = (req, res) =>{
-    const nodemailer = require('nodemailer');
+// exports.enviarEmail = (req, res) =>{
+//     const nodemailer = require('nodemailer');
 
-    var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'lauraacostacd1@gmail.com',
-        pass: 'ibuzxmyaljrnejff'
-      }
-    });
+//     var transporter = nodemailer.createTransport({
+//       service: 'gmail',
+//       auth: {
+//         user: 'lauraacostacd1@gmail.com',
+//         pass: 'ibuzxmyaljrnejff'
+//       }
+//     });
     
-    var mailOptions = {
-      from: 'lauraacostacd1@gmail.com',
-      to: 'lacosta044@misena.edu.co',
-      subject: 'Pruebita wi :3',
-      text: 'FUNCIONA KKK'
-    };
+//     var mailOptions = {
+//       from: 'lauraacostacd1@gmail.com',
+//       to: 'lacosta044@misena.edu.co',
+//       subject: 'Pruebita wi :3',
+//       text: 'FUNCIONA KKK'
+//     };
     
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+//     transporter.sendMail(mailOptions, function(error, info){
+//       if (error) {
+//         console.log(error);
+//       } else {
+//         console.log('Email sent: ' + info.response);
+//       }
+//     });
     
-};
+// };
 
 //VISTA VENDEDORES
 exports.mostrarAdminVendedores = async (req, res) => {
@@ -112,10 +112,12 @@ exports.crearVendedor = async(req, res)=> {
       ventasDespachadas: req.body.ventasdVendedor,
 
   })
-  vendedor.save()
+  console.log(vendedor)
+  await vendedor.save()
+
   const usuarioVendedor = new usuariecitos ({
-    correo: vendedor.correo,
-    contrasena: vendedor.contrasena,
+    correo: req.body.correoVendedor,
+    contrasena: req.body.contrasenaVendedor,
     rol: 'Vendedor',
     habilitado: true
   })
@@ -131,7 +133,10 @@ exports.eliminarVendedor = async (req, res) => {
 };
 
 exports.actualizarVendedores = async (req, res) => {
+
   const editarid = {_id: req.body.idVendedor}
+  const infoVendedor = await vendedorcitos.findById(editarid)
+  const correoUsuario = infoVendedor.correo
   const actualizar = {nombre: req.body.nombreactVendedor,
                       apellido: req.body.apellidoactVendedor,
                       correo: req.body.correoactVendedor,
@@ -139,13 +144,16 @@ exports.actualizarVendedores = async (req, res) => {
                       contrasena: req.body.contrasenaactVendedor,
                       ventasDespachadas: req.body.ventasactVendedor
                     }
-  const actualizarUser = {correo: req.body.correoactVendedor,
-                          contrasena: req.body.contrasenaactVendedor
+  const actualizarUser = {correo: actualizar.correo,
+                          contrasena: actualizar.contrasena
   }
-  console.log(actualizar)
-  console.log(editarid)
-  await vendedorcitos.findOneAndUpdate(editarid, actualizar)
-  await usuariecitos.findOnedAndUpdate(actualizar.correo, actualizarUser)
+  await vendedorcitos.findByIdAndUpdate(editarid, actualizar)
+  await usuariecitos.findOneAndUpdate({correo: correoUsuario}, actualizarUser)
+  // const usuario = await usuariecitos.findOne({correo: actualizar.correo})
+  // console.log(usuario.correo)
+  // usuario.correo = actualizar.correo
+  // usuario.contrasena = actualizar.contrasena
+  // await usuario.save()
   res.redirect('accionesVendedores')
   }
 
