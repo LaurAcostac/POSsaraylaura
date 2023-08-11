@@ -14,7 +14,10 @@
 </head>
 
 <body style="background-color: rgb(255, 255, 255);">
-
+  <div class="alert alert-warning text-center mb-0"
+    style="color: black; font-weight: bold; background-color: rgb(252, 192, 252);" role="alert" id="envio">
+    Envíos GRATIS por compras desde $129.900. Aplican TYC
+  </div>
   <%- include ('parcials/navbar')%>
 
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
@@ -57,123 +60,149 @@
 
 
     <h5 class="text-center m-4 fw-bold">CATEGORÍAS</h4>
-      <div class="d-flex">
-        <div class="w-50">
+      <div class="d-flex justify-content-center mb-4">
+
+        <div class="image-with-button position-relative">
+          <img class="img-fluid"
+            src="https://karibik.vtexassets.com/assets/vtex.file-manager-graphql/images/c9f553a9-9e12-4af4-86ab-2c3a2746b8bb___7d1bef74c1e9cecad15228808104c739.jpg"
+            width="300px" height="400px">
+            <button class="btn btn-dark position-absolute start-50 translate-middle-x bottom-0 mb-3" style="background-color: black; font-weight: bolder;">BLUSAS</button>
+        </div>
+        <div class="image-with-button position-relative">
+          <img class="img-fluid"
+            src="https://karibik.vtexassets.com/assets/vtex.file-manager-graphql/images/2c1e9f7e-e89a-4cf6-9955-5a31578d2c89___bbe6b563a7e091f648b504c6ad6627b3.jpg"
+            width="300px" height="400px">
+            <button class="btn btn-dark position-absolute start-50 translate-middle-x bottom-0 mb-3" style="background-color: black; font-weight: bolder;">PANTALONES</button>
+        </div>
+        <div class="image-with-button position-relative">
+          <img class="img-fluid"
+            src="https://karibik.vtexassets.com/assets/vtex.file-manager-graphql/images/cf13fcfc-14f0-42d7-a396-aef9cce84926___4cb09c8eaa027e8aefc7f67155cf66f0.jpg"
+            width="300px" height="400px">
+            <button class="btn btn-dark position-absolute start-50 translate-middle-x bottom-0 mb-3" style="background-color: black; font-weight: bolder;">VESTIDOS</button>
+        </div>
+        <div class="image-with-button position-relative">
+          <img class="img-fluid"
+            src="https://karibik.vtexassets.com/assets/vtex.file-manager-graphql/images/d7f7c6dd-0b12-438e-a007-6d662f6d7188___d438467bc92f3c599dab1fab7af52f58.jpg"
+            width="300px" height="400px">
+            <button class="btn btn-dark position-absolute start-50 translate-middle-x bottom-0 mb-3" style="background-color: black; font-weight: bolder;">COMPLEMENTOS</button>
+        </div>
+      </div>
+
+      <div class="d-flex mt-5">
+        <div class="w-50 ms-4">
           <img class="img-fluid"
             src="https://karibik.vtexassets.com/assets/vtex.file-manager-graphql/images/cb4da983-d999-4023-89e3-a74c6f8a5634___054db00a4bc8ada7bc74ad78d5bf4cff.jpg"
-            alt="">
+            width="640px" height="900px">
         </div>
-        
-        <div class="w-50">
+
+        <div class="w-50 me-2">
           <img class="img-fluid"
             src="https://karibik.vtexassets.com/assets/vtex.file-manager-graphql/images/3f01f528-1bda-4116-a529-986a1e95d649___507fd638e77501d7dbb6193834334e38.jpg"
-            >
+            width="640px" height="900px">
         </div>
       </div>
 
 
       <h5 class="text-center m-4 fw-bold">LO MÁS TOP</h5>
-        <section class="d-flex flex-row flex-wrap justify-content-center">
-          <% productos.slice(196,200).forEach(function(productito) { %>
-            <div class="card m-4" style="width: 18rem;">
-              <img src="https://picsum.photos/300/300?random=<%= productito._id %>" class="card-img-top" alt="...">
-              <div class="card-body">
-                <div class="d-flex justify-content-between">
-                  <h5 class="card-title">
-                    <%= productito.nombre %>
-                  </h5>
-                  <p class="card-text fw-bold">$<%= productito.precio %>
-                  </p>
-                </div>
-                <p class="card-text">
-                  <%= productito.descripcion %>
+      <section class="d-flex flex-row flex-wrap justify-content-center">
+        <% productos.slice(196,200).forEach(function(productito) { %>
+          <div class="card m-4" style="width: 18rem;">
+            <img src="https://picsum.photos/300/300?random=<%= productito._id %>" class="card-img-top" alt="...">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title">
+                  <%= productito.nombre %>
+                </h5>
+                <p class="card-text fw-bold">$<%= productito.precio %>
                 </p>
-                <button class="btn btn-warning"
-                  onclick="agregarAlCarrito(`<%= productito._id %>`, `<%= productito.nombre %>`, `<%= productito.precio %>`)"><i
-                    class="bi-cart-check"></i></button>
-                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal"
-                  data-bs-target="#modalinfo-<%= productito._id %>"> Ver
-                  más</button>
               </div>
+              <p class="card-text">
+                <%= productito.descripcion %>
+              </p>
+              <button class="btn btn-warning"
+                onclick="agregarAlCarrito(`<%= productito._id %>`, `<%= productito.nombre %>`, `<%= productito.precio %>`)"><i
+                  class="bi-cart-check"></i></button>
+              <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal"
+                data-bs-target="#modalinfo-<%= productito._id %>"> Ver
+                más</button>
             </div>
-            <div class="modal fade" id="modalinfo-<%= productito._id %>" tabindex="-1" aria-labelledby="modalactLabel"
-              aria-hidden="true">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  <div class="mb-4 col-md-6 d-flex justify-content-evenly w-100">
-                    <div>
-                      <img src="https://picsum.photos/300/300?random=<%= productito._id %>" class="card-img-top"
-                        alt="...">
-                    </div>
-                    <div class="modal-title text-center fs-5">
-                      <h2 class="modal-title text-center fs-5" id="exampleModalLabel">
-                        <%=productito.nombre %>
-                      </h2>
-                      <p class="fs-6 fw-lighter m-2 text-start">Ref: <%=productito.referencia %>
-                      </p>
-                      <p class="text-start fw-bold">$<%= productito.precio %>
-                      </p>
-                      <div class="btn-toolbar mb-3 d-flex justify-content-center" role="toolbar"
-                        aria-label="Toolbar with button groups">
-                        <div class="btn-group me-2" role="group" aria-label="First group">
-                          <button type="button" class="btn btn-outline-secondary">XS</button>
-                          <button type="button" class="btn btn-outline-secondary">S</button>
-                          <button type="button" class="btn btn-outline-secondary">M</button>
-                          <button type="button" class="btn btn-outline-secondary">L</button>
-                          <button type="button" class="btn btn-outline-secondary">XL</button>
-                          <button type="button" class="btn btn-outline-secondary">XXL</button>
-                        </div>
+          </div>
+          <div class="modal fade" id="modalinfo-<%= productito._id %>" tabindex="-1" aria-labelledby="modalactLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="mb-4 col-md-6 d-flex justify-content-evenly w-100">
+                  <div>
+                    <img src="https://picsum.photos/300/300?random=<%= productito._id %>" class="card-img-top"
+                      alt="...">
+                  </div>
+                  <div class="modal-title text-center fs-5">
+                    <h2 class="modal-title text-center fs-5" id="exampleModalLabel">
+                      <%=productito.nombre %>
+                    </h2>
+                    <p class="fs-6 fw-lighter m-2 text-start">Ref: <%=productito.referencia %>
+                    </p>
+                    <p class="text-start fw-bold">$<%= productito.precio %>
+                    </p>
+                    <div class="btn-toolbar mb-3 d-flex justify-content-center" role="toolbar"
+                      aria-label="Toolbar with button groups">
+                      <div class="btn-group me-2" role="group" aria-label="First group">
+                        <button type="button" class="btn btn-outline-secondary">XS</button>
+                        <button type="button" class="btn btn-outline-secondary">S</button>
+                        <button type="button" class="btn btn-outline-secondary">M</button>
+                        <button type="button" class="btn btn-outline-secondary">L</button>
+                        <button type="button" class="btn btn-outline-secondary">XL</button>
+                        <button type="button" class="btn btn-outline-secondary">XXL</button>
                       </div>
                     </div>
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button class="btn btn-warning"
-                      onclick="agregarAlCarrito(`<%= productito._id %>`, `<%= productito.nombre %>`, `<%= productito.precio %>`)"><i
-                        class="bi-cart-check"></i>Comprar</button>
-                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button class="btn btn-warning"
+                    onclick="agregarAlCarrito(`<%= productito._id %>`, `<%= productito.nombre %>`, `<%= productito.precio %>`)"><i
+                      class="bi-cart-check"></i>Comprar</button>
                 </div>
               </div>
             </div>
-            </div>
-            </div>
-            <% }) %>
-              <div class="d-flex align-items-center">
-                <div class="centered-button padding-bottom 20px">
-                  <a href="catalogo" class="btn btn-dark" role="button">MÁS PRODUCTOS</a>
-                </div>
+          </div>
+          </div>
+          </div>
+          <% }) %>
+            <div class="d-flex align-items-center">
+              <div class="centered-button padding-bottom 20px">
+                <a href="catalogo" class="btn btn-dark" role="button" style="background-color: black; font-weight: bolder;">MÁS PRODUCTOS</a>
               </div>
-        </section>
-        <%- include ('parcials/carrito')%>
+            </div>
+      </section>
+      <%- include ('parcials/carrito')%>
 
         <div>
           <img
             src="https://karibik.vtexassets.com/assets/vtex.file-manager-graphql/images/e0f3f9ee-6489-4a5e-abe5-94ad15197173___0079ca6602c36ac5d3b5d36dd7eb606c.jpg"
             class="d-block w-100 mt-4" alt="" width="100%">
+        </div>
+
+        <h5 class="text-center m-4 fw-bold">SOBRE NOSOTROS</h5>
+        <div class="d-flex">
+          <div class="w-50">
+            <img class="img-fluid"
+              src="https://karibik.vtexassets.com/assets/vtex.file-manager-graphql/images/7feae5e1-c840-4bd6-af7a-c9cf5513677e___d720b58ce072ab839e5fef3d93dfaf90.png"
+              alt="" height="60px">
           </div>
 
-          <h5 class="text-center m-4 fw-bold">SOBRE NOSOTROS</h5>
-          <div class="d-flex">
-            <div class="w-50">
-              <img class="img-fluid"
-                src="https://karibik.vtexassets.com/assets/vtex.file-manager-graphql/images/7feae5e1-c840-4bd6-af7a-c9cf5513677e___d720b58ce072ab839e5fef3d93dfaf90.png"
-                alt="" height="60px">
-            </div>
-            
-            <div class="w-50">
-              <img class="img-fluid"
-                src="https://karibik.vtexassets.com/assets/vtex.file-manager-graphql/images/4b682bdb-6a36-4913-b2a7-f77fc349f3c0___ee3c9f4b67618a7d6c0e574ebb6c7cec.gif"
-                >
-            </div>
+          <div class="w-50">
+            <img class="img-fluid"
+              src="https://karibik.vtexassets.com/assets/vtex.file-manager-graphql/images/4b682bdb-6a36-4913-b2a7-f77fc349f3c0___ee3c9f4b67618a7d6c0e574ebb6c7cec.gif">
           </div>
-          <!-- <button class="d-flex justify-content-evenly">VER MÁS</button>
+        </div>
+        <!-- <button class="d-flex justify-content-evenly">VER MÁS</button>
           <a href="descargarexcel">Descargar</a> -->
 
-          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-            crossorigin="anonymous"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+          crossorigin="anonymous"></script>
 
 </body>
 

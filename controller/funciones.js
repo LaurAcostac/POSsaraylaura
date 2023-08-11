@@ -383,16 +383,3 @@ exports.comprobarRecuperacion = async(req, res) =>{
 //     });
 
 // }
-
-
-// IMPORTANT: La idea de este método era obtener del localStorage el token y verificarlo gracias al metodo verify del jwt.
-// en caso de ser valido, lo decodifica (Obteniendo el payload que mencionaba antes).
-// exports.validarToken = async () => {
-//   let token = localStorage.getItem("token");
-  
-//   if(token) {
-//     const valido = jwt.verify(token, jwtSecret);
-//     if (valido) return jwt.decode(token);
-//   } 
-//   return null;
-// };
