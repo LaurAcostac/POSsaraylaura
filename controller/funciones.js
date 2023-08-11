@@ -115,8 +115,18 @@ exports.iniciarUsuario = async (req, res) => {
   }
 };
 
+
 //Verificación de existencia de un token, en caso de no ser así crearlo
 exports.verificacionToken = async (req, res, next) =>{
+exports.eliminarUsuario = async (req, res) =>{
+  let id= req.params._id;
+  let cliente= await clientecitos.findOneAndDelete ({"_id":id});
+  let usuario = await usuariecitos.findOne ({"correo":cliente.correo});
+  await usuariecitos.findOneAndDelete ({"_id":usuario.id});
+  res.redirect('/api/v1/principal');
+}
+
+exports.verifacionToken = async (req, res, next) =>{
   try {
     if(!req.headers.cookie){
       return res.render('inicioSesion');
