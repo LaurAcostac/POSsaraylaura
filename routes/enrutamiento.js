@@ -35,6 +35,7 @@ router.get('/eliminarusuario/:_id', acciones.eliminarUsuario);
 
 router.get('/autenticar', accionesAdmin.enviarEmail);
 router.get('/formularioCompra', acciones.mostrarCompra);
+router.post('/finalizarcompra', acciones.finalizarCompra);
 
 //router.post('/autenticarcorreo', acciones.enviarEmailcampo)
 //router.get('/descargarexcel', acciones.descargarExcel)

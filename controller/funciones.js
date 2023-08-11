@@ -40,6 +40,10 @@ exports.mostrarCompra = async (req, res) => {
   res.render('formularioCompra')
 }
 
+exports.finalizarCompra = async (req, res) => {
+ 
+}
+
 exports.crearUsuario = async (req, res) => {
   let correo = req.body.correoregistrar;
   console.log(correo);

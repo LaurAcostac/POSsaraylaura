@@ -30,7 +30,7 @@
                       <h6 style="color: white;">Datos de envío</h6><br>
                     </div>
                     <%- include ('parcials/carrito')%>
-                    <form action="formularioCompra" method="post">
+                    <form action="finalizarcompra" method="post">
                       <div class="form-outline mb-4">
                         <div class="form-outline mb-4 col-md-6 d-flex justify-content-between w-100">
                           <input type="text" id="nombrecompra" class="form-control me-1" placeholder="Nombre"
@@ -43,6 +43,8 @@
                         <input type="email" id="emailcompra" class="form-control" placeholder="Correo electrónico"
                           name="correocompra" required><br>
                       </div>
+                      <input type="text" id="carritocompra" name="carritocompra">
+                      <button class="btn btn-warning" type="submit"> Pagar </button>
                       <div id="alerta" class="alert alert-warning" role="alert" style="display: none;">
                         Las contraseñas no coinciden. Por favor, inténtalo de nuevo.
                       </div>
