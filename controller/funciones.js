@@ -41,8 +41,8 @@ exports.mostrarCompra = async (req, res) => {
 }
 
 exports.finalizarCompra = async (req, res) => {
- 
-}
+ console.log("desde funciones"+ req.body.carritocompra) //Funcion para ver los productos del carrito al apretar pagar
+ }
 
 exports.crearUsuario = async (req, res) => {
   let correo = req.body.correoregistrar;

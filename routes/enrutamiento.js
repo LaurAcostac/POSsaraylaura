@@ -30,9 +30,9 @@ router.get('/eliminarClientes/:_id', accionesAdmin.eliminarAdminCliente);
 
 router.get('/formularioregistro', acciones.mostrarRegistro); //Mostrar el formulario
 router.get('/iniciosesion', acciones.mostrarInicioSesion); //Mostrar formulario inicio sesion
-router.get('/mostrarperfil', acciones.verificacionToken, acciones.mostrarFormPerfil); //Mostrar datos del perfil y verficiación del token
-router.get('/recuperarContrasena', acciones.recuperarContrasena);//formulario de envío de recuperación
+router.get('/mostrarperfil', acciones.mostrarFormPerfil); //Mostrar datos del perfil y verficiación del token - eliminamos el verification token
 
+router.get('/recuperarContrasena', acciones.recuperarContrasena);//formulario de envío de recuperación 
 router.get('/formularioregistro', acciones.mostrarRegistro);
 router.post('/registrar', acciones.crearUsuario);
 router.get('/iniciosesion', acciones.mostrarInicioSesion);

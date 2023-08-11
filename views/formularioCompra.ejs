@@ -43,7 +43,7 @@
                         <input type="email" id="emailcompra" class="form-control" placeholder="Correo electrónico"
                           name="correocompra" required><br>
                       </div>
-                      <input type="text" id="carritocompra" name="carritocompra">
+                      <input type="text" id="carritocompra" name="carritocompra" readonly>
                       <button class="btn btn-warning" type="submit"> Pagar </button>
                       <div id="alerta" class="alert alert-warning" role="alert" style="display: none;">
                         Las contraseñas no coinciden. Por favor, inténtalo de nuevo.
@@ -63,7 +63,9 @@
       </div>
     </section>
     <script>
-  // Función para mostrar el contenido del carrito en el formulario
+      document.getElementById("carritocompra").value= localStorage.getItem("carritocookie"); // Llenamos el input con la información del carrito
+      console.log( localStorage.getItem("carritocookie"))
+      // Función para mostrar el contenido del carrito en el formulario
   function mostrarCarrito() {
     //Donde se mostrará el contenido del carrito
     const divCarrito = document.getElementById('contenidoCarrito');
