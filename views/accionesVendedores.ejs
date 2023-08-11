@@ -63,7 +63,7 @@
             <td><%=vendedor.documento%></td>
             <td><%=vendedor.contrasena%></td>
             <td><%=vendedor.ventasDespachadas%></td>
-            <td><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalactvendedores" onclick="llenarVendedores(`<%=vendedor._id%>`, `<%=vendedor.nombre%>`, `<%=vendedor.apellido%>`, `<%=vendedor.documento%>`,`<%=vendedor.ventasDespachadas%>`)">
+            <td><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalactvendedores" onclick="llenarVendedores(`<%=vendedor._id%>`, `<%=vendedor.nombre%>`, `<%=vendedor.apellido%>`, `<%=vendedor.correo%>`, `<%=vendedor.documento%>`, `<%=vendedor.contrasena%>`, `<%=vendedor.ventasDespachadas%>`)">
                 Editar
               </button>
               <a href="eliminarVendedor/<%=vendedor._id%>">Eliminar</a>
@@ -123,10 +123,20 @@
       idactvendedor.value = id;
       nomactvendedor.value = nombre;
       apeactvendedor.value = apellido;
-      correoactvendedor.value = correo
+      correoactvendedor.value = correo;
       documentactvendedor.value = documento;
       contrasenaactvendedor.value = contrasena;
-      ventasact.value = ventas;
+      ventasact.value = ventas
+
+      
+      
+      // idactvendedor.value = id;
+      // nomactvendedor.value = nombre;
+      // apeactvendedor.value = apellido;
+      // correoactvendedor.value = correo
+      // documentactvendedor.value = correo;
+      // contrasenaactvendedor.value = contrasena;
+      // ventasact.value = ventas;
 
     }
     //arreglar
