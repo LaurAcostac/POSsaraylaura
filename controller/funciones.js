@@ -37,7 +37,41 @@ exports.mostrarCatalogo = async (req, res) => {
 };
 
 exports.mostrarCompra = async (req, res) => {
+  console.log(req.headers?.cookie?.slice(6));
   res.render('formularioCompra')
+}
+
+exports.finalizarCompra = async (req, res) => {
+  try {
+    const carrito = JSON.parse(req.body.carritocompra); // Hacemos el parse porque carritocompra llega como string (necesitamos un array de objetos para pasarcelo a ventitas)
+
+    let subtotalVenta = 0;
+    carrito.forEach(producto => {
+      subtotalVenta += producto.precio * producto.cantidad
+    }); // calculamos el subtotal usando un lindo forEach
+
+    let impuesto = subtotalVenta * 0.19;
+
+    let nuevaVenta = new ventitas({
+      ProductosVenta: carrito,
+      SubtotalVenta: subtotalVenta,
+      FechaVenta: Date.now(),
+      Impuesto: impuesto,
+      TotalVenta: subtotalVenta + impuesto,
+      ClienteVenta: req.body.nomcompra + " " + req.body.apecompra,
+      VendedorVenta: "A través de la página"
+    });
+
+    await nuevaVenta.save();
+    // IMPORTANT: Quizá lo mejor sería eliminar dichos productos a partir de aquí... pero asumamos que no se acaba el stock...
+
+    // Y... luego redirigimos
+    const ventasHechas = JSON.stringify(await ventitas.find());
+    res.send(`<h3>Ventas hechas?</h3>
+    <p>${ventasHechas}</p>`);
+  } catch {
+    res.send('Hubo un problema al realizar el pago');
+  }
 }
 
 //CRUD VISTA CLIENTE
