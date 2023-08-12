@@ -1,7 +1,7 @@
 const express = require('express'); //Importar express.
 const app = express() //Constructor express, se crea la aplicación.
 const path = require('path');
-const ruticas = require('./routes/enrutamiento');
+const ruticas = require('./backend/routes/enrutamiento');
 const bcrypt = require('bcrypt');
 const jwt =  require('jsonwebtoken');
 
