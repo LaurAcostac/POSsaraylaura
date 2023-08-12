@@ -98,6 +98,7 @@ exports.iniciarUsuario = async (req, res) => {
        
         const token = await jwt.sign({id: usuario._id}, jwtSecret, {expiresIn: 180000});
         console.log(token);
+        console.log(Correo)
         let infoCliente = await clientecitos.findOne({ correo: Correo });
         res.cookie('token', token).render('ingresarPerfil', { "cliente": infoCliente });
       } else if (usuario.rol === 'vendedor') {
@@ -117,7 +118,7 @@ exports.iniciarUsuario = async (req, res) => {
 
 
 //Verificación de existencia de un token, en caso de no ser así crearlo
-exports.verificacionToken = async (req, res, next) =>{
+
 exports.eliminarUsuario = async (req, res) =>{
   let id= req.params._id;
   let cliente= await clientecitos.findOneAndDelete ({"_id":id});
@@ -126,7 +127,7 @@ exports.eliminarUsuario = async (req, res) =>{
   res.redirect('/api/v1/principal');
 }
 
-exports.verifacionToken = async (req, res, next) =>{
+exports.verificacionToken = async (req, res, next) =>{
   try {
     if(!req.headers.cookie){
       return res.render('inicioSesion');
@@ -197,7 +198,7 @@ exports.comprobarRecuperacion = async(req, res) =>{
   console.log(cliente)
   if(!cliente){
     return res.status(500).send('NN');  
-  }else{
+  } else {
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -221,188 +222,5 @@ exports.comprobarRecuperacion = async(req, res) =>{
       }
     });
     return res.send('tu contraseña ha sido enviada')
-};
+  }
 }
-
-
-//
-// exports.enviarEmailcampo = (req, res) =>{
-//     const nodemailer = require('nodemailer');
-
-//     var transporter = nodemailer.createTransport({
-//       service: 'gmail',
-//       auth: {
-//         user: 'sara.palacio79@misena.edu.co',
-//         pass: 'zbvqrzmmnhjpekbl'
-//       }
-//     });
-    
-//     var mailOptions = {
-//       from: 'sara.palacio79@misena.edu.co',
-//       to: req.body.correito,
-//       subject: 'Pruebita wi :3',
-//       text: 'FUNCIONA KKK'
-//     };
-    
-//     transporter.sendMail(mailOptions, function(error, info){
-//       if (error) {
-//         console.log(error);
-//       } else {
-//         console.log('Email sent: ' + info.response);
-//       }
-//     });
-    
-// }
-
-// exports.enviarSms = (req, res)=>{
-//     const smpp = require('smpp');
-//     const session = new smpp.Session({host: '0.0.0.0', port: 9500});
-
-//     let isConnected = false
-// session.on('connect', () => {
-//   isConnected = true;
-
-//   session.bind_transceiver({
-//       system_id: 'USER_NAME',
-//       password: 'USER_PASSWORD',
-//       interface_version: 1,
-//       system_type: '380666000600',
-//       address_range: '+380666000600',
-//       addr_ton: 1,
-//       addr_npi: 1,
-//   }, (pdu) => {
-//     if (pdu.command_status == 0) {
-//         console.log('Successfully bound')
-//     }
-
-//   })
-// })
-
-// session.on('close', () => {
-//   console.log('smpp is now disconnected') 
-   
-//   if (isConnected) {        
-//     session.connect();    //reconnect again
-//   }
-// })
-
-// session.on('error', error => { 
-//   console.log('smpp error', error)   
-//   isConnected = false;
-// });
-
-// function enviarSms(from, to, text) {
-//     from = `+${from}`  
-    
-//  // this is very important so make sure you have included + sign before ISD code to send sms
-    
-//     to = `+${to}`
-   
-//    session.submit_sm({
-//        source_addr:      from,
-//        destination_addr: to,
-//        short_message:    text
-//    }, function(pdu) {
-//        if (pdu.command_status == 0) {
-//            // Message successfully sent
-//            console.log(pdu.message_id);
-//        }
-//    });
-//  }
-// }
-
-// const xl = require('excel4node');
-// const path = require('path')
-// const fs = require('fs');
-
-
-// exports.descargarExcel = async(req, res) => {
-//     //configuramos el excel4node
-
-//     //creamos un nuevo documento
-//     const wb = new xl.Workbook();
-//     //definimos el nombre con el cual se descargara el archivo 
-//     const nombreArchivo = 'TablaProductos';
-//     //se define el nombre 
-//     var ws = wb.addWorksheet(nombreArchivo);
-
-//     //definimos estilos
-//     const columnaEstilo = wb.createStyle({
-//         font: {
-//             name: 'Arial',
-//             color: '#000000',
-//             size: 12,
-//             bold: true,
-//         }
-//     });
-
-//     const contenidoEstilo = wb.createStyle({
-//         font: {
-//             name: 'Arial',
-//             color: '#565656',
-//             size: 11,
-//         }
-//     });
-
-//     //definimos el nombre de las columenas
-//     ws.cell(1, 1).string('Categoria').style(columnaEstilo);
-//     ws.cell(1, 2).string('Nombre').style(columnaEstilo);
-//     ws.cell(1, 3).string('Descripcion').style(columnaEstilo);
-//     ws.cell(1, 4).string('Precio').style(columnaEstilo);
-
-//     //llamamos a la base de datos
-//     const listaProductos = await productitos.find()
-
-//     // definimos un contador que empiece en 2 
-//     let fila = 2;
-
-//     //agregamos el contenido de la base de datos con un for o un forEach para llamar todos los datos 
-    
-//     listaProductos.forEach(datoProducto => {
-//     ws.cell(fila, 1).string(datoProducto.categoriaProducto).style(contenidoEstilo);
-//     ws.cell(fila, 2).string(datoProducto.nombreProducto).style(contenidoEstilo);
-//     ws.cell(fila, 3).string(datoProducto.descripcionProducto).style(contenidoEstilo);
-//     ws.cell(fila, 4).number(datoProducto.precioProducto).style(contenidoEstilo);
-    
-//     fila = fila +1;
-//     });
-
-//     const rutaExcel = path.join(__dirname,'excel'+ nombreArchivo +'.xlsx');
-
-//     //escribir y guardar en el documento 
-//     //se le inclulle la ruta y una funcion 
-//     wb.write(rutaExcel, function(err,stars){
-
-//         //capturamos y mostramos en caso de un error
-//         if(err)console.log(err);
-//         //creamos una funcion que descargue el archibo y lo elimine 
-//         else{
-
-//             //guardamos el documento en la carpeta para excel para poder descargarla en el pc
-//                 res.download(rutaExcel);
-                
-//                 console.log('documento descargado correctamente');
-
-//                 //Eliminamos el documento de la carpeta excel
-//                 fs.rm(rutaExcel, function(err){
-//                     if(err)console.log(err);
-//                     else console.log('Archivo descargado y borrado del servidor correctamente');
-//                 });
-                
-//         }
-//     });
-
-// }
-
-
-// IMPORTANT: La idea de este método era obtener del localStorage el token y verificarlo gracias al metodo verify del jwt.
-// en caso de ser valido, lo decodifica (Obteniendo el payload que mencionaba antes).
-// exports.validarToken = async () => {
-//   let token = localStorage.getItem("token");
-  
-//   if(token) {
-//     const valido = jwt.verify(token, jwtSecret);
-//     if (valido) return jwt.decode(token);
-//   } 
-//   return null;
-// };

@@ -25,8 +25,12 @@ exports.mostrarAdministracion = async (req, res) => { //función para mostrar la
   }
 
 //CRUD PRODUCTOS
-exports.crearProducto =(req, res)=> {
-    const productos = new productitos({ //Se declara una constante que extrae cada dato desde los nombres que tienen los campos del formulario respectivos.
+exports.crearProducto = async (req, res)=> {
+  const productoRegistrado = await productitos.findOne({referencia: req.body.campoRef});
+  if(productoRegistrado){
+    return res.json({error: "este producto ya está registrado"})
+  }
+  const productos = new productitos({ //Se declara una constante que extrae cada dato desde los nombres que tienen los campos del formulario respectivos.
         referencia: req.body.campoRef,
         nombre: req.body.campoNombre,
         descripcion: req.body.campoDescripcion,
@@ -102,6 +106,11 @@ exports.mostrarAdminVendedores = async (req, res) => {
 
 //CRUD VENDEDORES
 exports.crearVendedor = async(req, res)=> {
+  const vendedorRegistrado = await vendedorcitos.findOne({correo: req.body.correoVendedor});
+  const usuarioRegistrado = await usuariecitos.findOne({correo: req.body.correoVendedor});
+  if (vendedorRegistrado || usuarioRegistrado) {
+    return res.json({error: 'Este vendedor ya está registrado'})
+  }
   const vendedor = new vendedorcitos({
       id: req.params._id,
       nombre: req.body.nombreVendedor,

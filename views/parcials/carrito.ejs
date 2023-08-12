@@ -40,6 +40,7 @@
       <div class="d-flex flex-column justify-content-center align-items-center w-75">
         <h4>${productito.nombre}</h4>
         <p>$${productito.precio}</p>
+        <p>$${productito.precio * productito.cantidad}</p>
         <div class="d-flex align-items-center ms-4 me-4"> 
         <button class="btn btn-warning" onclick="sumar('${productito.id}')">+</button> 
         <input class="form-control form-control-xs ms-2 me-2 text-center" value="${productito.cantidad}" readonly>
