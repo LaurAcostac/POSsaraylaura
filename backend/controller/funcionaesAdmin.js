@@ -17,6 +17,7 @@ exports.mostrarLandingAdmin = async (req,res) => {
   });
 };
 
+//CRUD PRODUCTOS
 exports.mostrarAdministracion = async (req, res) => { //función para mostrar la inerfaz
     const listadoProductosAdmin = await productitos.find(); //se declara una constante donde busca en mongodb
     res.render('accionesProductos', {
@@ -24,7 +25,7 @@ exports.mostrarAdministracion = async (req, res) => { //función para mostrar la
     })
   }
 
-//CRUD PRODUCTOS
+
 exports.crearProducto = async (req, res)=> {
   const productoRegistrado = await productitos.findOne({referencia: req.body.campoRef});
   if(productoRegistrado){
@@ -62,39 +63,6 @@ exports.actualizarProducto = async (req, res) => {
   await productitos.findOneAndUpdate(editarid, actualizar) //Se utiliza un método que recibe los dos parámetros anteriormente declarados.
   res.redirect('/api/v1/administrarProductos')
   }
-
-//
-exports.autenticar = (req, res)=>{
-  res.render('autenticacion')
-}
-
-// exports.enviarEmail = (req, res) =>{
-//     const nodemailer = require('nodemailer');
-
-//     var transporter = nodemailer.createTransport({
-//       service: 'gmail',
-//       auth: {
-//         user: 'lauraacostacd1@gmail.com',
-//         pass: 'ibuzxmyaljrnejff'
-//       }
-//     });
-    
-//     var mailOptions = {
-//       from: 'lauraacostacd1@gmail.com',
-//       to: 'lacosta044@misena.edu.co',
-//       subject: 'Pruebita wi :3',
-//       text: 'FUNCIONA KKK'
-//     };
-    
-//     transporter.sendMail(mailOptions, function(error, info){
-//       if (error) {
-//         console.log(error);
-//       } else {
-//         console.log('Email sent: ' + info.response);
-//       }
-//     });
-    
-// };
 
 //VISTA VENDEDORES
 exports.mostrarAdminVendedores = async (req, res) => {
@@ -137,7 +105,9 @@ exports.crearVendedor = async(req, res)=> {
 
 exports.eliminarVendedor = async (req, res) => {
   let id = req.params._id
-  await vendedorcitos.findOneAndDelete({"_id":id})
+  let vendedor = await vendedorcitos.findOneAndDelete({"_id":id});
+  let usuario =
+  
   res.redirect('accionesVendedores')
 };
 
@@ -158,11 +128,6 @@ exports.actualizarVendedores = async (req, res) => {
   }
   await vendedorcitos.findByIdAndUpdate(editarid, actualizar)
   await usuariecitos.findOneAndUpdate({correo: correoUsuario}, actualizarUser)
-  // const usuario = await usuariecitos.findOne({correo: actualizar.correo})
-  // console.log(usuario.correo)
-  // usuario.correo = actualizar.correo
-  // usuario.contrasena = actualizar.contrasena
-  // await usuario.save()
   res.redirect('accionesVendedores')
   }
 

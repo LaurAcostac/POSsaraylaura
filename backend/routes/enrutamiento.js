@@ -24,7 +24,7 @@ router.get('/eliminarVendedores/:_id', accionesAdmin.eliminarVendedor); //arregl
 
 //CRUD ADMIN clientes 
 router.get('/accionesClientes', accionesAdmin.mostrarAdminClientes);
-router.post('/actualizarClientes', accionesAdmin.actualizarAdminCliente);
+router.post('/actualizarCliente', accionesAdmin.actualizarAdminCliente);
 router.get('/eliminarClientes/:_id', accionesAdmin.eliminarAdminCliente);
 
 
@@ -36,7 +36,7 @@ router.get('/recuperarContrasena', acciones.recuperarContrasena);//formulario de
 router.get('/formularioregistro', acciones.mostrarRegistro);
 router.post('/registrar', acciones.crearUsuario);
 router.get('/iniciosesion', acciones.mostrarInicioSesion);
-router.post('/autenticarInicio', acciones.iniciarUsuario);
+// router.post('/autenticarInicio', acciones.iniciarUsuario);
 router.get('/mostrarperfil', acciones.verificacionToken, acciones.mostrarFormPerfil);
 router.get('/cerrarsesion', acciones.cerrarSesion);
 router.get('/recuperarContrasena', acciones.recuperarContrasena);

@@ -13,9 +13,6 @@
 <body onload="mostrarCarrito()">
   <%- include ('parcials/navbar')%>
     <section class="h-100 gradient-form" style="background-color: rgb(255, 255, 255);">
-      <div id="alertaexito" class="alert alert-success" role="alert" style="display: none;">
-        Registrado exitosamente!
-      </div>
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-xl-10">
@@ -40,27 +37,38 @@
                           </div>
                           <input type="text" id="telefonocompra" class="form-control" placeholder="Telefono/Celular"
                             name="telcompra" required> <br>
+                          <input type="text" id="direccioncompra" class="form-control" placeholder="Direccion"
+                          name="direccompra" required> <br>
+                          <input type="text" id="datosresidencia" class="form-control" placeholder="Datos de residencia"
+                          name="datresidencia"><br>
                           <input type="email" id="emailcompra" class="form-control" placeholder="Correo electronico"
-                            name="correocompra" required><br>
+                          name="correocompra" required><br>
                         </div>
                         <input type="hidden" id="carritocompra" name="carritocompra" readonly>
+
+                        
                         <button class="btn btn-warning" type="submit"> Pagar </button>
-                        <div id="alerta" class="alert alert-warning" role="alert" style="display: none;">
-                          Las contraseñas no coinciden. Por favor, inténtalo de nuevo.
-                        </div>
                       </form>
 
                   </div>
                 </div>
                 <div class="col-lg-6 d-flex align-items-center gradient-custom-2" style="background-color: white;">
                   <div class="text-white px-3 py-4 p-md-5 mx-md-4" id="contenidoCarrito">
+                    
                   </div>
+
                 </div>
+                
               </div>
+              
             </div>
+            
           </div>
+          
         </div>
+
       </div>
+
     </section>
     <script>
       function limpiarCarrito() {
@@ -94,15 +102,24 @@
           <p style="color: black;>$${producto.precio}</p>
           <p style="color: black;>$${producto.precio * producto.cantidad}</p>
           <div class="d-flex align-items-center ms-4 me-4"> 
+          <p style="color:black;font-weight: bold">Cantidad:</p><br>
           <input class="form-control form-control-xs ms-2 me-2 text-center" value="${producto.cantidad}" readonly>
 
-        </div>
-      </div>
-      </div>
 
+        </div>
+
+      </div>
+      
+    </div>
       `;
           divCarrito.appendChild(divProducto);
         });
+        let total = 0;
+        carrito.forEach((producto) => {
+        total += parseFloat(producto.precio * producto.cantidad)
+        })
+        totalPrecio.innerHTML = `<p class="m-0">Total a pagar: $${total.toFixed(2)}</p>
+        `
       }
 
       function sumar(id){
