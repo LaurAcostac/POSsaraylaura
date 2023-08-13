@@ -22,8 +22,8 @@
                   <div class="card-body p-md-5 mx-md-4">
 
                     <div class="text-center">
-                      <img src="https://www.pngplay.com/wp-content/uploads/13/Versace-Logo-Free-PNG.png"
-                        style="width: 185px;" alt="modelos">
+                      <img src="https://karibik.vtexassets.com/arquivos/karibik.png"
+                        style="width: 185px;" alt="modelos" class="mb-5 mt-3">
                       <h6 style="color: white;">Si ya eres cliente: </h6><br>
                     </div>
 
@@ -31,9 +31,11 @@
                       <div class="form-outline">
                         <input type="email" id="emailiniciar" class="form-control" placeholder="Correo electrónico"
                           name="correoiniciar"><br>
+                        <div class="form-outline mb-4 col-md-6 d-flex justify-content-between w-100">
                         <input type="password" id="contrasenainiciar" class="form-control" placeholder="Contraseña"
                           name="contrasenainiciar"> 
-                        <i class="bi bi-eye btn btn-outline-warning" type="button" onclick="mostrarContrasena()"></i><br>
+                        <i class="bi bi-eye btn btn-outline-warning ms-2" type="button" onclick="mostrarContrasena()"></i><br>
+                        </div>
                         <p style="color: white;">¿Aún no tienes una cuenta? has click <a href="formularioregistro">aquí</a></p>
                         <p style="color: white;">¿Olvidaste tu contraseña?<a href="recuperarContrasena">click aquí</a></p>
                       </div>
@@ -60,8 +62,7 @@
     </section>
     <script>
         function mostrarContrasena() {
-        let tipo = document.getElementById("emailiniciar");
-        let tipo2 = document.getElementById("contrasenainiciar")
+        let tipo = document.getElementById("contrasenainiciar");
         if (tipo.type == 'password') {
           tipo.type = 'text';
         } else {

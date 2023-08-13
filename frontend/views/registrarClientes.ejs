@@ -25,7 +25,7 @@
                   <div class="card-body p-md-5 mx-md-4">
 
                     <div class="text-center">
-                      <img src="https://www.pngplay.com/wp-content/uploads/13/Versace-Logo-Free-PNG.png"
+                      <img src="https://karibik.vtexassets.com/arquivos/karibik.png" class="mb-5 mt-3"
                         style="width: 185px;" alt="modelos">
                       <h6 style="color: white;">¿Eres un nuevo cliente?</h6><br>
                     </div>
@@ -48,6 +48,7 @@
                           <i class="bi bi-eye btn btn-outline-warning" type="button" onclick="mostrarContrasena()"></i>
                           <input type="password" id="confirmregist" class="form-control ms-1"
                             placeholder="Confirmar contraseña" name="confirmregistrar" required>
+                          <i class="bi bi-eye btn btn-outline-warning" type="button" onclick="mostrarContrasenaConfirm()"></i>
                         </div>
                       </div>
                       <div id="alerta" class="alert alert-warning" role="alert" style="display: none;">
@@ -98,12 +99,20 @@
       }
 
       function mostrarContrasena() {
-        let tipo = document.getElementById("contrasenaregist");
-        let tipo2 = document.getElementById("confirmregist")
-        if (tipo.type == 'password') {
-          tipo.type = 'text';
+        let password = document.getElementById("contrasenaregist");
+        
+        if (password.type == 'password') {
+          password.type = 'text';
         } else {
-          tipo.type = 'password'
+          password.type = 'password'
+        }
+      }
+      function mostrarContrasenaConfirm() {
+        let passwordConfirm = document.getElementById("confirmregist")
+        if (passwordConfirm.type == 'password') {
+          passwordConfirm.type = 'text';
+        } else {
+          passwordConfirm.type = 'password'
         }
       }
     </script>

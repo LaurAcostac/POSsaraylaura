@@ -1,4 +1,4 @@
-const mongoose = require('../backend/config/connection') //Importo mongoose
+const mongoose = require('../config/connection') //Importo mongoose
 const bcrypt = require('bcrypt'); //Importar encriptador
 
 const saltRounds = 10;

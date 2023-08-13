@@ -10,12 +10,12 @@
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <style>
     div {
-      background-color: rgb(68, 68, 68),
+      background-color: rgb(255, 255, 255),
 
     }
 
     body {
-      background-color: rgb(68, 68, 68)
+      background-color: rgb(255, 255, 255)
     }
   </style>
 </head>
@@ -94,72 +94,4 @@
           <%- include ('parcials/carrito')%>
       </section>
     </main>
-
-<!--
-    <script>
-      var carrito = JSON.parse(localStorage.getItem('carritocookie')) || [];
-      let listaProductitos = document.getElementById('listaProductitos');
-      let totalPrecio = document.getElementById('totalprecios');
-
-      function agregarAlCarrito(id, nombre, precio) {
-        let productito = {
-          id: id,
-          nombre: nombre,
-          precio: precio
-        }
-
-        carrito.push(productito)
-        crearCarrito();
-        guardarCookies();
-      }
-
-      function crearCarrito() {
-        listaProductitos.innerHTML = ''
-
-        carrito.forEach(function (productito) {
-          let detallitos = document.createElement('div');
-          detallitos.classList.add('d-flex', 'mb-2', 'justify-content-between')
-          detallitos.innerHTML = `
-        <div class="w-25">
-          <img src="https://karibik.vtexassets.com/arquivos/ids/206081-300-300?v=1772756345&width=300&height=300&aspect=true" class="w-100 rounded">
-        </div>
-        <div class="d-flex flex-column justify-content-center align-items-center w-75">
-          <h4>${productito.nombre}</h4>
-          <p>$${productito.precio}</p>
-        </div>
-        <div class="d-flex align-items-center">
-        <button class="btn btn-danger" onclick="borrarProducto('${productito.id}')">Eliminar</button>
-        </div>
-        `
-          listaProductitos.appendChild(detallitos)
-        })
-        let total = 0;
-        carrito.forEach((producto) => {
-          total += parseFloat(producto.precio)
-        })
-        totalPrecio.innerHTML = `<p class="m-0">Total a pagar: $${total}</p>
-      <button class="btn btn-warning" onclick="pagar()"> Pagar </button>`
-      }
-
-      function borrarProducto(id) {
-        const idproducto = carrito.find((producto) => producto.id === id)
-
-        carrito = carrito.filter((carritoId) => {
-          return carritoId !== idproducto;
-
-        })
-        guardarCookies();
-        crearCarrito();
-      }
-
-      function guardarCookies() {
-        localStorage.setItem('carritocookie', JSON.stringify(carrito));
-      }
-
-      function pagar() {
-        localStorage.clear();
-        location.reload()
-      }
-    </script>
-    -->
 </body>

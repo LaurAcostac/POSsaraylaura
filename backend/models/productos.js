@@ -1,4 +1,4 @@
-const mongoose = require('../backend/config/connection')
+const mongoose = require('../config/connection')
 
 const SchemaProducto = new mongoose.Schema({ //Se crea el esquema con la información que va a tener cada colección
     referencia: {

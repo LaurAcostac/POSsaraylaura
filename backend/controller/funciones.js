@@ -1,10 +1,9 @@
-const usuariecitos = require('../../models/usuarios')
-const clientecitos = require('../../models/clientes');
-const productitos = require('../../models/productos');
-const vendedorcitos = require('../../models/vendedores');
-const ventitas = require('../../models/ventas');
-const funcionesAdmin = require('./funcionaesAdmin');
-const express = require('express');
+const usuariecitos = require('../models/usuarios')
+const clientecitos = require('../models/clientes');
+const productitos = require('../models/productos');
+const vendedorcitos = require('../models/vendedores');
+const ventitas = require('../models/ventas');
+const funcionesAdmin = require('../controller/funcionaesAdmin');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 

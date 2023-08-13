@@ -1,9 +1,9 @@
 //importar modelos
-const usuariecitos = require('../../models/usuarios')
-const clientecitos = require('../../models/clientes'); 
-const productitos = require('../../models/productos');
-const vendedorcitos = require('../../models/vendedores');
-const ventitas = require('../../models/ventas') 
+const usuariecitos = require('../models/usuarios')
+const clientecitos = require('../models/clientes'); 
+const productitos = require('../models/productos');
+const vendedorcitos = require('../models/vendedores');
+const ventitas = require('../models/ventas') 
 
 //Vistas ADMIN
 exports.mostrarVistaAdmin =  (req, res) => {

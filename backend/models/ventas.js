@@ -1,4 +1,4 @@
-const mongoose = require('../backend/config/connection');
+const mongoose = require('../config/connection');
 
 const SchemaVentas = new mongoose.Schema({
     ProductosVenta: {

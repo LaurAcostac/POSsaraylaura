@@ -10,16 +10,16 @@
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 
-<body>
+<body onload="mostrarCarrito()">
   <%- include ('parcials/navbar')%>
-    <section class="h-100 gradient-form" style="background-color: rgb(184, 184, 184);">
+    <section class="h-100 gradient-form" style="background-color: rgb(255, 255, 255);">
       <div id="alertaexito" class="alert alert-success" role="alert" style="display: none;">
         Registrado exitosamente!
       </div>
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-xl-10">
-            <div class="card rounded-3 text-black" style="background-color: rgb(68, 68, 68);">
+            <div class="card rounded-3 text-black" style="background-color: rgb(6, 6, 6);">
               <div class="row g-0">
                 <div class="col-lg-6">
                   <div class="card-body p-md-5 mx-md-4">
@@ -30,29 +30,29 @@
                       <h6 style="color: white;">Datos de envío</h6><br>
                     </div>
                     <%- include ('parcials/carrito')%>
-                    <form action="finalizarcompra" method="post">
-                      <div class="form-outline mb-4">
-                        <div class="form-outline mb-4 col-md-6 d-flex justify-content-between w-100">
-                          <input type="text" id="nombrecompra" class="form-control me-1" placeholder="Nombre"
-                            name="nomcompra" required/> <br>
-                          <input type="text" id="apellidocompra" class="form-control ms-1" placeholder="Apellido"
-                            name="apecompra" required /> <br>
+                      <form action="finalizarcompra" method="post">
+                        <div class="form-outline mb-4">
+                          <div class="form-outline mb-4 col-md-6 d-flex justify-content-between w-100">
+                            <input type="text" id="nombrecompra" class="form-control me-1" placeholder="Nombre"
+                              name="nomcompra" required /> <br>
+                            <input type="text" id="apellidocompra" class="form-control ms-1" placeholder="Apellido"
+                              name="apecompra" required /> <br>
+                          </div>
+                          <input type="text" id="telefonocompra" class="form-control" placeholder="Telefono/Celular"
+                            name="telcompra" required> <br>
+                          <input type="email" id="emailcompra" class="form-control" placeholder="Correo electronico"
+                            name="correocompra" required><br>
                         </div>
-                        <input type="text" id="telefonocompra" class="form-control" placeholder="Teléfono/Celular"
-                          name="telcompra" required> <br>
-                        <input type="email" id="emailcompra" class="form-control" placeholder="Correo electrónico"
-                          name="correocompra" required><br>
-                      </div>
-                      <input type="hidden" id="carritocompra" name="carritocompra" readonly>
-                      <button class="btn btn-warning" type="submit" onclick="limpiarCarrito()"> Pagar </button>
-                      <div id="alerta" class="alert alert-warning" role="alert" style="display: none;">
-                        Las contraseñas no coinciden. Por favor, inténtalo de nuevo.
-                      </div>
-                    </form>
+                        <input type="hidden" id="carritocompra" name="carritocompra" readonly>
+                        <button class="btn btn-warning" type="submit"> Pagar </button>
+                        <div id="alerta" class="alert alert-warning" role="alert" style="display: none;">
+                          Las contraseñas no coinciden. Por favor, inténtalo de nuevo.
+                        </div>
+                      </form>
 
                   </div>
                 </div>
-                <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+                <div class="col-lg-6 d-flex align-items-center gradient-custom-2" style="background-color: white;">
                   <div class="text-white px-3 py-4 p-md-5 mx-md-4" id="contenidoCarrito">
                   </div>
                 </div>
@@ -67,48 +67,79 @@
         localStorage.removeItem("carritocookie");
       }
 
-      document.getElementById("carritocompra").value= localStorage.getItem("carritocookie"); // Llenamos el input con la información del carrito
-      console.log( localStorage.getItem("carritocookie"))
+      document.getElementById("carritocompra").value = localStorage.getItem("carritocookie"); // Llenamos el input con la información del carrito
+      console.log(localStorage.getItem("carritocookie"))
       // Función para mostrar el contenido del carrito en el formulario
-  function mostrarCarrito() {
-    //Donde se mostrará el contenido del carrito
-    const divCarrito = document.getElementById('contenidoCarrito');
+      function mostrarCarrito() {
+        //Donde se mostrará el contenido del carrito
+        const divCarrito = document.getElementById('contenidoCarrito');
 
-    // Obtener el contenido del carrito almacenado en localStorage
-    const carrito = JSON.parse(localStorage.getItem('carritocookie')) || [];
+        // Obtener el contenido del carrito almacenado en localStorage
+        const carrito = JSON.parse(localStorage.getItem('carritocookie')) || [];
+        console.log('este es '+carrito)
+        // Limpiar el contenido previo del div
+        divCarrito.innerHTML = '';
 
-    // Limpiar el contenido previo del div
-    divCarrito.innerHTML = '';
+        // Recorrer los productos del carrito y mostrarlos en el formulario
+        carrito.forEach((producto) => {
+          const divProducto = document.createElement('div');
+          divProducto.innerHTML = `
+          <div class="form-outline mb-4 col-md-6 d-flex justify-content-between w-100">
+          <div class="w-25">
+          <img src="https://karibik.vtexassets.com/arquivos/ids/206081-300-300?v=1772756345&width=300&height=300&aspect=true" class="w-100 rounded">
+          
+          </div>
+        <div class="d-flex flex-column justify-content-center align-items-center w-75">
+          <h4 style="color: black;">${producto.nombre}</h4>
+          <p style="color: black;>$${producto.precio}</p>
+          <p style="color: black;>$${producto.precio * producto.cantidad}</p>
+          <div class="d-flex align-items-center ms-4 me-4"> 
+          <input class="form-control form-control-xs ms-2 me-2 text-center" value="${producto.cantidad}" readonly>
 
-    // Recorrer los productos del carrito y mostrarlos en el formulario
-    carrito.forEach((producto) => {
-      const divProducto = document.createElement('div');
-      divProducto.innerHTML = `
-        <div class="form-outline mb-4">
-          <input type="text" class="form-control" value="${producto.nombre}" disabled />
-          <input type="text" class="form-control" value="$${producto.precio}" disabled />
-          <input type="number" class="form-control" value="${producto.cantidad}" disabled />
         </div>
+      </div>
+      </div>
+
       `;
-      divCarrito.appendChild(divProducto);
-    });
-  }
+          divCarrito.appendChild(divProducto);
+        });
+      }
 
-  // Llamar a la función para mostrar el contenido del carrito cuando se cargue la página
-  window.addEventListener('load', mostrarCarrito);
-
-
-
-  function llenar(id,ref,nombre,descripcion,precio,stock,estado){
-      idact.value = id;
-      refact.value = ref;
-      nomact.value = nombre;
-      descact.value = descripcion;
-      precioact.value = precio;
-      stockact.value = stock;
-      estadoact.value = estado;
+      function sumar(id){
+      carrito.find(producto =>{
+        if(producto.id == id){
+          producto.cantidad++
+        }
+      })
+      guardarCookies();
+      crearCarrito()
     }
-</script>
+    function restar(id){
+      carrito.find(producto =>{
+        if(producto.id == id){
+          producto.cantidad--
+          if(producto.cantidad == 0){
+            borrarProducto(id);
+          }
+        }
+      })
+      guardarCookies();
+      crearCarrito();
+    }
+
+
+
+
+      function llenar(id, ref, nombre, descripcion, precio, stock, estado) {
+        idact.value = id;
+        refact.value = ref;
+        nomact.value = nombre;
+        descact.value = descripcion;
+        precioact.value = precio;
+        stockact.value = stock;
+        estadoact.value = estado;
+      }
+    </script>
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
