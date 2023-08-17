@@ -133,10 +133,10 @@ exports.iniciarUsuario = async (req, res) => {
         console.log(token);
         console.log(Correo)
         let infoCliente = await clientecitos.findOne({ correo: Correo });
-        res.cookie('token', token).render('ingresarPerfil', { "cliente": infoCliente });
+        res.cookie('token', token).redirect('mostrarperfil');
       } else if (usuario.rol === 'vendedor') {
         let infoVendedor = await vendedorcitos.findOne({correo: Correo})
-        res.cookie('token', token).render('perfilAdmin', { 'vendedor': infoVendedor });
+        res.cookie('token', token).redirect('perfilAdmin');
       } else {
         return res.status(500).send('ROL NO RECONOCIDO');
       }
@@ -206,13 +206,12 @@ exports.actualizarPerfil = async (req, res) =>{
                         telefono: req.body.telefonopCliente,
                         correo: req.body.correopCliente,
                       };
-    const actualizarUser = {correo: req.body.correopCliente,
-}
+    const actualizarUser = {correo: req.body.correopCliente}
     console.log(actualizar)
     console.log(editarid)
     await clientecitos.findOneAndUpdate(editarid, actualizar)
-    await usuariecitos.findOnedAndUpdate(actualizar.correo, actualizarUser)
-    res.redirect('autenticarInicio')
+    await usuariecitos.findOneAndUpdate({correo: actualizar.correo}, actualizarUser)
+    res.redirect('/api/v1/mostrarperfil')
     };
 
 exports.cerrarSesion = async (req, res) => {

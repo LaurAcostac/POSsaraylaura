@@ -112,7 +112,6 @@ exports.eliminarVendedor = async (req, res) => { //arreglar
 };
 
 exports.actualizarVendedores = async (req, res) => {
-
   const editarid = {_id: req.body.idVendedor}
   const infoVendedor = await vendedorcitos.findById(editarid)
   const correoUsuario = infoVendedor.correo
@@ -143,26 +142,26 @@ exports.mostrarAdminClientes = async (req, res) => { //función para mostrar la 
 exports.eliminarAdminCliente = async (req, res) => {
   let id = req.params._id
   await clientecitos.findOneAndDelete({"_id":id})
-  res.redirect('accionesClientes')
+  res.redirect('/api/v1/accionesClientes')
 };
 
-exports.actualizarAdminCliente = async (req, res) => { //arreglar
-  const editarid = {_id: req.body.idCliente}
-  const infoCliente = await clientecitos.findById(editarid)
-  const correoUsuario = infoCliente.correo
-  const actualizar = {nombre: req.body.nombreactCliente,
-                      apellido: req.body.apellidoactCliente,
-                      documento: req.body.documentoactCliente,
-                      ventasDespachadas: req.body.ventasactCliente
-                    }
-  const actualizarUser = {correo: actualizar.correo,
-                          contrasena: actualizar.contrasena
-}
-  console.log(actualizar)
-  console.log(editarid)
-  await clientecitos.findByIdAndUpdate(editarid, actualizar)
-  await usuariecitos.findOneAndUpdate({correo: correoUsuario}, actualizarUser)
-  res.redirect('accionesClientes')
+exports.actualizarAdminCliente = async (req, res) => {
+    const editarid = {_id: req.body.idcliente}
+    const infoCliente = await clientecitos.findById(editarid)
+    const correoUsuario = infoCliente.correo
+    const actualizar = {nombre: req.body.nombreactCliente,
+                        apellido: req.body.apellidoactCliente,
+                        documento: req.body.documentoactCliente,
+                        ventasDespachadas: req.body.ventasactCliente
+                      }
+    const actualizarUser = {correo: actualizar.correo,
+                            contrasena: actualizar.contrasena
+  }
+    console.log(actualizar)
+    console.log(editarid)
+    await clientecitos.findByIdAndUpdate(editarid, actualizar)
+    await usuariecitos.findOneAndUpdate({correo: correoUsuario}, actualizarUser)
+    res.redirect('accionesClientes')
   };
 
 exports.mostrarGrafica = async (req, res) => {
