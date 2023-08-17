@@ -3,19 +3,19 @@ const usuariecitos = require('../models/usuarios')
 const clientecitos = require('../models/clientes'); 
 const productitos = require('../models/productos');
 const vendedorcitos = require('../models/vendedores');
-const ventitas = require('../models/ventas') 
-
+const ventitas = require('../models/ventas'); 
+const funcionesAdmin = require ('../controller/funciones');
 //Vistas ADMIN
 exports.mostrarVistaAdmin =  (req, res) => {
   res.render('perfilAdmin')
 }
 
-exports.mostrarLandingAdmin = async (req,res) => {
-  const listadoProductosP = await productitos.find();
-  res.render('landingAdmin', {
-    "productos" : listadoProductosP
-  });
-};
+// exports.mostrarLandingAdmin = async (req,res) => {
+//   const listadoProductosP = await productitos.find();
+//   res.render('landingAdmin', {
+//     "productos" : listadoProductosP
+//   });
+// };
 
 //CRUD PRODUCTOS
 exports.mostrarAdministracion = async (req, res) => { //función para mostrar la inerfaz
@@ -103,12 +103,12 @@ exports.crearVendedor = async(req, res)=> {
 
 };
 
-exports.eliminarVendedor = async (req, res) => {
-  let id = req.params._id
+exports.eliminarVendedor = async (req, res) => { //arreglar
+  let id = req.params.id
   let vendedor = await vendedorcitos.findOneAndDelete({"_id":id});
-  let usuario =
-  
-  res.redirect('accionesVendedores')
+  let usuario = await usuariecitos.findOne ({"correo":vendedor.correo});
+  await usuariecitos.findOneAndDelete ({"_id":usuario.id});
+  res.redirect('/api/v1/accionesVendedores')
 };
 
 exports.actualizarVendedores = async (req, res) => {
@@ -148,15 +148,21 @@ exports.eliminarAdminCliente = async (req, res) => {
 
 exports.actualizarAdminCliente = async (req, res) => { //arreglar
   const editarid = {_id: req.body.idCliente}
+  const infoCliente = await clientecitos.findById(editarid)
+  const correoUsuario = infoCliente.correo
   const actualizar = {nombre: req.body.nombreactCliente,
                       apellido: req.body.apellidoactCliente,
                       documento: req.body.documentoactCliente,
                       ventasDespachadas: req.body.ventasactCliente
                     }
+  const actualizarUser = {correo: actualizar.correo,
+                          contrasena: actualizar.contrasena
+}
   console.log(actualizar)
   console.log(editarid)
-  await vendedorcitos.findOneAndUpdate(editarid, actualizar)
-  res.redirect('accionesVendedores')
+  await clientecitos.findByIdAndUpdate(editarid, actualizar)
+  await usuariecitos.findOneAndUpdate({correo: correoUsuario}, actualizarUser)
+  res.redirect('accionesClientes')
   };
 
 exports.mostrarGrafica = async (req, res) => {

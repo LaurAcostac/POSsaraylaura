@@ -7,7 +7,7 @@ const router =  express.Router();
 router.get('/principal', acciones.mostrarPrincipal);
 router.get('/catalogo', acciones.mostrarCatalogo);
 router.get('/perfilAdmin', accionesAdmin.mostrarVistaAdmin);
-router.get('/landingadmin', accionesAdmin.mostrarLandingAdmin);
+//router.get('/landingadmin', accionesAdmin.mostrarLandingAdmin);
 router.get('/grafica', accionesAdmin.mostrarGrafica);
 
 //CRUD productos
@@ -20,7 +20,7 @@ router.get('/eliminarProductos/:_id', accionesAdmin.eliminarProducto);
 router.get('/accionesVendedores', accionesAdmin.mostrarAdminVendedores);
 router.post('/crearVendedores', accionesAdmin.crearVendedor);
 router.post('/actualizarVendedores', accionesAdmin.actualizarVendedores);
-router.get('/eliminarVendedores/:_id', accionesAdmin.eliminarVendedor); //arreglar
+router.get('/eliminarVendedor/:id', accionesAdmin.eliminarVendedor); //arreglar
 
 //CRUD ADMIN clientes 
 router.get('/accionesClientes', accionesAdmin.mostrarAdminClientes);
