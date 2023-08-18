@@ -199,21 +199,35 @@ exports.mostrarFormPerfil = async (req, res) => {
 
 }
 //Update
-exports.actualizarPerfil = async (req, res) =>{
-    const editarid = {_id: req.body.idcliente}
-    const actualizar = {nombre: req.body.nombrepCliente,
-                        apellido: req.body.apellidopCliente,
-                        telefono: req.body.telefonopCliente,
-                        correo: req.body.correopCliente,
-                      };
-    const actualizarUser = {correo: req.body.correopCliente}
-    console.log(actualizar)
-    console.log(editarid)
-    await clientecitos.findOneAndUpdate(editarid, actualizar)
-    await usuariecitos.findOneAndUpdate({correo: actualizar.correo}, actualizarUser)
-    res.redirect('/api/v1/mostrarperfil')
-    };
+exports.actualizarPerfil = async (req, res) => {
+  const idCliente = req.body.idcliente
+  //guardo la informacion del cliente en una variable cliente
+  const cliente = await clientecitos.findById({"_id": idCliente})
+  //SE verifica si el correo que se quiere actualizar ya existe en la base de datos
+  if (cliente.correo !== req.body.correopCliente) {
+    const emailRegistrado = await clientecitos.findOne({"correo": req.body.correopCliente});
+    if (emailRegistrado) {
+      return res.json({error: 'El correo ya está registrado'});
+    }
+  }
+  const actualizar = {
+    nombre: req.body.nombrepCliente,
+    apellido: req.body.apellidopCliente,
+    telefono: req.body.telefonopCliente,
+    correo: req.body.correopCliente,
+  }
 
+  const actualizarUser = {
+    correo: req.body.correopCliente
+  }
+  await clientecitos.findByIdAndUpdate({"_id": idCliente}, actualizar);
+  //Se le pasan los datos para guardarlos
+  await usuariecitos.findOneAndUpdate({"correo": cliente.correo}, actualizarUser);
+  //se envian los datos del cliente para que no salga error
+  res.render('ingresarPerfil', {
+    "cliente": actualizar});
+  };
+  
 exports.cerrarSesion = async (req, res) => {
   res.clearCookie("token").redirect('principal')
 }
