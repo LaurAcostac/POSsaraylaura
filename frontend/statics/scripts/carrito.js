@@ -1,0 +1,108 @@
+let carrito = JSON.parse(localStorage.getItem('carritocookie')) || [];
+const listaProductitos = document.getElementById('listaProductitos');
+const totalPrecio = document.getElementById('totalprecios');
+
+function agregarAlCarrito (id, nombre, precio) {
+  const productito = {
+    id,
+    nombre,
+    precio,
+    cantidad: 1
+  };
+
+  const verificarProducto = carrito.find(productoAgregado => productoAgregado.id == productito.id);
+  if (verificarProducto) {
+    carrito.map(producto => {
+      if (producto.id == productito.id) {
+        producto.cantidad++;
+      }
+    });
+  } else {
+    carrito.push(productito);
+  }
+  crearCarrito();
+  guardarCookies();
+}
+
+function crearCarrito () {
+  listaProductitos.innerHTML = '';
+
+  carrito.forEach(function (productito) {
+    const detallitos = document.createElement('div');
+    detallitos.classList.add('d-flex', 'mb-2', 'justify-content-between');
+    detallitos.innerHTML = `
+  <div class="w-25">
+    <img src="https://karibik.vtexassets.com/arquivos/ids/206081-300-300?v=1772756345&width=300&height=300&aspect=true" class="w-100 rounded">
+  </div>
+  <div class="d-flex flex-column justify-content-center align-items-center w-75">
+    <h4>${productito.nombre}</h4>
+    <p>$${productito.precio}</p>
+    <p>$${productito.precio * productito.cantidad}</p>
+    <div class="d-flex align-items-center ms-4 me-4"> 
+    <button class="btn btn-warning" onclick="sumar('${productito.id}')">+</button> 
+    <input class="form-control form-control-xs ms-2 me-2 text-center" value="${productito.cantidad}" readonly>
+    <button class="btn btn-warning" onclick="restar('${productito.id}')">-</button>
+    </div>
+    
+  </div>
+  <div class="d-flex align-items-center">
+  <button class="btn btn-danger" onclick="borrarProducto('${productito.id}')">Eliminar</button>
+  </div>
+  `;
+    listaProductitos.appendChild(detallitos);
+  });
+  let total = 0;
+  carrito.forEach((producto) => {
+    total += parseFloat(producto.precio * producto.cantidad);
+  });
+  if(total == 0){
+    totalPrecio.innerHTML = ''
+  } else {
+    totalPrecio.innerHTML = `<p class="m-0">Total a pagar: $${total.toFixed(2)}</p>
+    <button class="btn btn-warning" onclick="pagar()"> Pagar </button>`;
+  }
+
+}
+
+function borrarProducto (id) {
+  const idproducto = carrito.find((producto) => producto.id === id);
+
+  carrito = carrito.filter((carritoId) => {
+    return carritoId !== idproducto;
+  });
+  guardarCookies();
+  crearCarrito();
+}
+
+function guardarCookies () {
+  localStorage.setItem('carritocookie', JSON.stringify(carrito));
+}
+
+function sumar (id) {
+  carrito.find(productito => {
+    if (productito.id == id) {
+      productito.cantidad++;
+    }
+  });
+  guardarCookies();
+  crearCarrito();
+}
+function restar (id) {
+  carrito.find(productito => {
+    if (productito.id == id) {
+      productito.cantidad--;
+      if (productito.cantidad == 0) {
+        borrarProducto(id);
+      }
+    }
+  });
+  guardarCookies();
+  crearCarrito();
+}
+
+function pagar () {
+  const pagoExitoso = true;
+  if (pagoExitoso) {
+    window.location.href = 'formularioCompra';
+  }
+}

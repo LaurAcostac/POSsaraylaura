@@ -48,7 +48,9 @@ router.get('/cerrarsesion', acciones.cerrarSesion); // Opción para borrar la co
 router.post('/enviarCorreo', acciones.comprobarRecuperacion);// Envío de recuperación
 
 // router.get('/autenticar', accionesAdmin.enviarEmail);
-router.get('/formularioCompra', acciones.mostrarCompra);
+router.get('/formularioCompra', acciones.verificacionToken, acciones.mostrarCompra);
+router.post('/finalizarcompra', acciones.verificacionToken, acciones.finalizarCompra);
+router.get('/compraexitosa', acciones.mostrarCompraExitosa);
 
 // router.post('/autenticarcorreo', acciones.enviarEmailcampo)
 // router.get('/descargarexcel', acciones.descargarExcel)

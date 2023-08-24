@@ -34,14 +34,21 @@ exports.mostrarCatalogo = async (req, res) => {
 };
 
 exports.mostrarCompra = async (req, res) => {
-  console.log(req.headers?.cookie?.slice(6));
-  res.render('formularioCompra');
+  const elId = req.id;
+  const usuarioLogueado = await Usuariecitos.findById(elId);
+  const clienteCompra = await Clientecitos.findOne({ correo: usuarioLogueado.correo });
+  console.log(clienteCompra);
+  res.render('formularioCompra', {
+    clientecompra: clienteCompra
+  });
 };
 
 exports.finalizarCompra = async (req, res) => {
   try {
+    const usuario = await Usuariecitos.findById(req.id);
+    const clienteCompra = await Clientecitos.findOne({ correo: usuario.correo });
     const carrito = JSON.parse(req.body.carritocompra); // Hacemos el parse porque carritocompra llega como string (necesitamos un array de objetos para pasarcelo a Ventitas)
-
+    console.log('este es el ' + req.id);
     let subtotalVenta = 0;
     carrito.forEach(producto => {
       subtotalVenta += producto.precio * producto.cantidad;
@@ -60,6 +67,9 @@ exports.finalizarCompra = async (req, res) => {
     });
 
     await nuevaVenta.save();
+    clienteCompra.totalComprado += nuevaVenta.TotalVenta;
+    clienteCompra.historicoCompras.push(carrito);
+    await clienteCompra.save();
     // IMPORTANT: Quizá lo mejor sería eliminar dichos productos a partir de aquí... pero asumamos que no se acaba el stock...
 
     // Y... luego redirigimos
@@ -71,13 +81,17 @@ exports.finalizarCompra = async (req, res) => {
   }
 };
 
+exports.mostrarCompraExitosa = (req, res) => {
+  res.render('compraExitosa');
+};
+
 // CRUD VISTA CLIENTE
 exports.crearUsuario = async (req, res) => {
   const correo = req.body.correoregistrar;
   console.log(correo);
   const contrasenaEncriptada = await bcrypt.hash(req.body.contregistrar, 10);
 
-  const clienteRegistrado = await Clientecitos.findOne({ correo: correo });
+  const clienteRegistrado = await Clientecitos.findOne({ correo });
   if (clienteRegistrado) {
     res.send('El correo ya está registrado');
   } else {
@@ -88,7 +102,7 @@ exports.crearUsuario = async (req, res) => {
       ubicacion: {
         centro: [23, 45]
       },
-      correo: correo,
+      correo,
       contrasena: contrasenaEncriptada
     });
     console.log(nuevoCliente);
@@ -123,9 +137,6 @@ exports.iniciarUsuario = async (req, res) => {
     if (esContrasenaCorrecta) {
       // Ahora verificamos el rol del usuario para renderizar la vista correspondiente
       if (usuario.rol === 'Cliente') {
-        // Se asinga un token al usuario para crear la cookie y dejar la sesiòn iniciada
-        // let token = jwt.sign({id: usuario._id}, jwtSecret, {expiresIn: 180000});
-        // let token = await jwt.sign({ id: usuario._id }, jwtSecret, { expiresIn: 180000 });
         console.log(token);
         console.log(Correo);
         const infoCliente = await Clientecitos.findOne({ correo: Correo });
@@ -244,7 +255,7 @@ exports.comprobarRecuperacion = async (req, res) => {
       service: 'gmail',
       auth: {
         user: 'lauraacostacd1@gmail.com',
-        pass: 'ibuzxmyaljrnejff'
+        pass: process.env.PASSWORDVERIFICACION
       }
     });
     const mailOptions = {

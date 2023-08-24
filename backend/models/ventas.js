@@ -1,8 +1,8 @@
 const mongoose = require('../config/connection');
 
-const SchemaVentas = new mongoose.Schema({
+const SchemaVentas = new mongoose.Schema({ // agregar direccion
   ProductosVenta: {
-    type: Array // Por confirmar
+    type: Array
   },
   SubtotalVenta: {
     type: Number
