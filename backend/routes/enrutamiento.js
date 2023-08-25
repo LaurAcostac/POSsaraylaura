@@ -44,7 +44,7 @@ router.post('/actualizarperfil', acciones.actualizarPerfil);
 
 router.post('/registrar', acciones.crearUsuario); // Post registro CRUD cliente
 router.post('/autenticarInicio', acciones.iniciarUsuario); // Validación para inicio de sesion
-router.get('/cerrarsesion', acciones.cerrarSesion); // Opción para borrar la cookie y cerrar la sesión
+// Opción para borrar la cookie y cerrar la sesión
 router.post('/enviarCorreo', acciones.comprobarRecuperacion);// Envío de recuperación
 
 // router.get('/autenticar', accionesAdmin.enviarEmail);

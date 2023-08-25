@@ -143,28 +143,38 @@ exports.mostrarAdminClientes = async (req, res) => { // función para mostrar la
 
 exports.eliminarAdminCliente = async (req, res) => {
   const id = req.params._id;
-  await Clientecitos.findOneAndDelete({ _id: id });
+  const objetoCliente = await Clientecitos.findOneAndDelete({ _id: id });
+  console.log(objetoCliente);
+  await Usuariecitos.findOneAndDelete({ correo: objetoCliente.correo });
   res.redirect('/api/v1/accionesClientes');
 };
 
 exports.actualizarAdminCliente = async (req, res) => {
-  const editarid = { _id: req.body.idcliente };
-  const infoCliente = await Clientecitos.findById(editarid);
-  const correoUsuario = infoCliente.correo;
+  const editarid = req.body.idcliente;
+  const correoFormulario = req.body.correoactCliente;
+  // guardo la informacion del cliente en una variable cliente
+  const cliente = await Clientecitos.findById({ _id: editarid });
+  // Se verifica si el correo que se quiere actualizar ya existe en la base de datos
+  if (cliente.correo !== correoFormulario) {
+    const emailRegistrado = await Clientecitos.findOne({ correo: correoFormulario });
+    if (emailRegistrado) {
+      return res.send('El correo ya está registrado');
+    }
+  }
   const actualizar = {
     nombre: req.body.nombreactCliente,
     apellido: req.body.apellidoactCliente,
-    documento: req.body.documentoactCliente,
-    ventasDespachadas: req.body.ventasactCliente
+    telefono: req.body.documentoactCliente,
+    correo: req.body.correoactCliente
   };
+
   const actualizarUser = {
-    correo: actualizar.correo,
-    contrasena: actualizar.contrasena
+    correo: req.body.correoactCliente
   };
-  console.log(actualizar);
-  console.log(editarid);
-  await Clientecitos.findByIdAndUpdate(editarid, actualizar);
-  await Usuariecitos.findOneAndUpdate({ correo: correoUsuario }, actualizarUser);
+  await Clientecitos.findByIdAndUpdate({ _id: editarid }, actualizar);
+  // Se le pasan los datos para guardarlos
+  await Usuariecitos.findOneAndUpdate({ correo: cliente.correo }, actualizarUser);
+  // se envian los datos del cliente para que no salga error
   res.redirect('accionesClientes');
 };
 

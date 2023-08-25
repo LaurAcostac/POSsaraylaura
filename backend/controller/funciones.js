@@ -145,7 +145,9 @@ exports.iniciarUsuario = async (req, res) => {
       } else if (usuario.rol === 'Vendedor') {
         const infoVendedor = await Vendedorcitos.findOne({ correo: Correo });
         console.log(infoVendedor);
-        res.cookie('token', token).redirect('perfilAdmin');
+        res.cookie('token', token).render('perfilAdmin', {
+          vendedor: infoVendedor
+        });
       } else {
         return res.status(500).send('ROL NO RECONOCIDO');
       }

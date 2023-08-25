@@ -40,12 +40,12 @@
                      
                     </form>
                         <div class="text-center">
-                          <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalperfilclientes" onclick="llenarAdmin(`<%=vendedor.id%>`, `<%=vendedor.nombre%>`, `<%=vendedor.apellido%>`, `<%=cliente.telefono%>`, `<%=cliente.correo%>`)">ACTUALIZAR</button>
+                          <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalperfilvendedor" onclick="llenarAdmin(`<%=vendedor.id%>`, `<%=vendedor.nombre%>`, `<%=vendedor.apellido%>`, `<%=vendedor.telefono%>`, `<%=vendedor.correo%>`)">ACTUALIZAR</button>
                           <a href="cerrarsesion" type="submit" class="btn btn-outline-danger m-3">CERRAR SESIÓN</a>
                           <a href="eliminarUsuario/<%= vendedor.id%>" type="submit" class="btn btn-outline-danger m-3">ELIMINAR USUARIO</a>
                         </div>
                       <!--modal -->
-                        <div class="modal fade" id="modalperfilclientes" tabindex="-1" aria-labelledby="modalactLabel" aria-hidden="true">
+                        <div class="modal fade" id="modalperfilvendedor" tabindex="-1" aria-labelledby="modalactLabel" aria-hidden="true">
                           <div class="modal-dialog">
                             <div class="modal-content">
                               <div class="modal-header">

@@ -16,22 +16,22 @@
     <div class="mb-3 m-5">
         <form action="crearVendedores" method="post">
         <label for="nombre" class="form-label">Nombre:</label>
-        <input type="text" name="nombreVendedor" class="form-control" id="nombre" placeholder="ingrese el nombre" >
+        <input type="text" name="nombreVendedor" class="form-control" id="nombre" placeholder="ingrese el nombre" required>
 
         <label for="apellido" class="form-label">Apellido:</label>
-        <input type="text" name="apellidoVendedor" class="form-control" id="apellido" placeholder="ingrese el apellido">
+        <input type="text" name="apellidoVendedor" class="form-control" id="apellido" placeholder="ingrese el apellido" required>
 
         <label for="correo" class="form-label">Correo:</label>
-        <input type="email" name="correoVendedor" class="form-control" id="correo" placeholder="ingrese el apellido">
+        <input type="email" name="correoVendedor" class="form-control" id="correo" placeholder="ingrese el apellido" required>
 
         <label for="documento" class="form-label">Documento</label>
-        <input type="text" name="documentoVendedor" class="form-control" id="documento" placeholder="ingrese su documento" >
+        <input type="text" name="documentoVendedor" class="form-control" id="documento" placeholder="ingrese su documento" required>
 
         <label for="contrasenavendedor" class="form-label">Contraseña</label>
-        <input type="password" name="contrasenaVendedor" class="form-control" id="contrasenavendedor" placeholder="Ingrese la contraseña">
+        <input type="password" name="contrasenaVendedor" class="form-control" id="contrasenavendedor" placeholder="Ingrese la contraseña" minlength="8" required>
 
         <label for="ventasVendedor" class="form-label">Ventas Despachadas:</label>
-        <input type="text" name="ventasdVendedor" class="form-control" id="ventasVendedor" placeholder="ingrese el número de ventas">
+        <input type="text" name="ventasdVendedor" class="form-control" id="ventasVendedor" placeholder="ingrese el número de ventas" required>
 
         <input type="submit" class="btn btn-secondary m-5" value="Enviar"> 
     </form> 
