@@ -31,10 +31,15 @@ router.get('/formularioregistro', acciones.mostrarRegistro); // Mostrar el formu
 router.get('/iniciosesion', acciones.mostrarInicioSesion); // Mostrar formulario inicio sesion
 router.get('/mostrarperfil', acciones.verificacionToken, acciones.mostrarFormPerfil); // Mostrar datos del perfil y verficiación del token
 router.get('/recuperarContrasena', acciones.recuperarContrasena);// formulario de envío de recuperación
-
-router.get('/formularioregistro', acciones.mostrarRegistro);
 router.post('/registrar', acciones.crearUsuario);
-router.get('/iniciosesion', acciones.mostrarInicioSesion);
+
+// CRUD VENTAS
+
+router.get('/administrarVentas', accionesAdmin.mostrarAdminVentas);
+router.post('/crearVenta', accionesAdmin.crearVenta);
+router.post('/actualizarVenta', accionesAdmin.actualizarVenta);
+router.get('/eliminarVenta/:_id', accionesAdmin.eliminarVenta);
+
 // router.post('/autenticarInicio', acciones.iniciarUsuario);
 router.get('/cerrarsesion', acciones.cerrarSesion);
 router.get('/recuperarContrasena', acciones.recuperarContrasena);
