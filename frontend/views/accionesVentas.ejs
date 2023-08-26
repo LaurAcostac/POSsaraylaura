@@ -83,45 +83,120 @@
 
         <!-- Button trigger modal -->
 
-
-        <!-- Modal -->
-        <div class="modal fade" id="modalact" tabindex="-1" aria-labelledby="modalactLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar venta</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="actualizarVenta" method="POST">
-
-                            <label for="idact">Id:</label>
-                            <input type="text" name="campoId" class="form-control" id="idact" placeholder="" readonly>
-
-                            <label for="productosact" class="form-label">Productos:</label>
-                            <input type="text" name="campoProductosact" class="form-control" id="productosact"
-                                placeholder="ingrese los productos">
-
-                            <label for="subtotalact" class="form-label">Subtotal:</label>
-                            <input type="text" name="campoSubtotalact" class="form-control" id="subtotalact"
-                                placeholder="ingrese el subtotal">
-
-                            <label for="fechaact" class="form-label">Fecha:</label>
-                            <input type="text" name="campoFechaact" class="form-control" id="fechaact"
-                                placeholder="ingrese la fecha">
-
-                            <label for="totalact" class="form-label">Total:</label>
-                            <input type="text" name="campoTotalact" class="form-control" id="totalact"
-                                placeholder="ingrese el total">
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary">Actualizar cambios</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+    <div class="container d-flex flex-column justify-content-center align-items-center mb-4 mt-4">
+        <div class="d-flex">
+            <button class="btn btn-outline-danger me-4" type="button" onclick="mostrarGrafica(`<%= JSON.stringify(ventas)%>`)">Mostrar gráfica</button>
+            <button class="btn btn-outline-danger" type="button" onclick="generarPdf()">Generar PDF</button>
+        </div>
+        <canvas id="grafica" style="max-width: 800px; max-height: 500px; background-color: white;"></canvas>
+    </div>
+        <!-- Button trigger modal -->
+  
+  
+    <!-- Modal -->
+    <div class="modal fade" id="modalact" tabindex="-1" aria-labelledby="modalactLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar venta</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="actualizarVenta" method="POST">
+  
+              <label for="idact">Id:</label>
+              <input type="text" name="campoId" class="form-control" id="idact" placeholder="" readonly>
+  
+              <label for="productosact" class="form-label">Productos:</label>
+              <input type="text" name="campoProductosact" class="form-control" id="productosact" placeholder="ingrese los productos" >
+  
+              <label for="subtotalact" class="form-label">Subtotal:</label>
+              <input type="text" name="campoSubtotalact" class="form-control" id="subtotalact" placeholder="ingrese el subtotal" >
+  
+              <label for="fechaact" class="form-label">Fecha:</label>
+              <input type="text" name="campoFechaact" class="form-control" id="fechaact" placeholder="ingrese la fecha" >
+  
+              <label for="totalact" class="form-label">Total:</label>
+              <input type="text" name="campoTotalact" class="form-control" id="totalact" placeholder="ingrese el total">
+  
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary" >Actualizar cambios</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  
+    <script>
+      function llenar(id, productos, subtotal, fecha, total){
+        idact.value = id;
+        productosact.value = productos;
+        subtotalact.value = subtotal;
+        fechaact.value = fecha;
+        totalact.value = total;
+      }
+    </script>
+  
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+          function mostrarGrafica(ventas){
+            ventas = JSON.parse(ventas);
+            let productos = [];
+            let labels = [];
+            let cantidades = [];
+            ventas.forEach(venta => {
+              venta.ProductosVenta.forEach(productoVenta => {
+                let index = productos.findIndex(prod => prod.nombre == productoVenta.nombre);
+                if(index != -1) {
+                  productos[index].cantidad += productoVenta.cantidad
+                } else {
+                  productos.push({
+                    nombre: productoVenta.nombre,
+                    cantidad: productoVenta.cantidad
+                  });
+                }
+              });
+            });
+            productos.forEach(producto => {
+              labels.push(producto.nombre);
+              cantidades.push(producto.cantidad);
+            });
+            const ctx = document.getElementById('grafica');
+            new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: labels,
+                datasets: [{
+                  label: '# Ventas',
+                  data: cantidades,
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+          }
+      </script>
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+    <script>
+      function generarPdf() {
+        // Importante: Esto genera el pdf a partir de la grafica, es necesario primero haberla generado.
+        var pdf = new jsPDF('p', 'pt', 'letter');
+          pdf.addHTML($('#grafica')[0], function () {
+              pdf.save('grafica.pdf');
+          });
+      }
+    </script>
 
             <script>
 
