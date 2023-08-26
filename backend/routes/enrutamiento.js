@@ -16,6 +16,12 @@ router.post('/crearProductos', accionesAdmin.crearProducto);
 router.post('/actualizarProductos', accionesAdmin.actualizarProducto);
 router.get('/eliminarProductos/:_id', accionesAdmin.eliminarProducto);
 
+// CRUD Ventas
+router.get('/administrarVentas', accionesAdmin.mostrarAdminVentas);
+router.post('/crearVenta', accionesAdmin.crearVenta);
+router.post('/actualizarVenta', accionesAdmin.actualizarVenta);
+router.get('/eliminarVenta/:_id', accionesAdmin.eliminarVenta);
+
 // CRUD vendedores
 router.get('/accionesVendedores', accionesAdmin.mostrarAdminVendedores);
 router.post('/crearVendedores', accionesAdmin.crearVendedor);

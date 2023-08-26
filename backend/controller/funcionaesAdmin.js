@@ -3,8 +3,8 @@ const Usuariecitos = require('../models/usuarios');
 const Clientecitos = require('../models/clientes');
 const Productitos = require('../models/productos');
 const Vendedorcitos = require('../models/vendedores');
+const Ventitas = require('../models/ventas');
 const bcrypt = require('bcrypt');
-// const ventitas = require('../models/ventas');
 // const funcionesAdmin = require('../controller/funciones');
 // Vistas ADMIN
 exports.mostrarVistaAdmin = (req, res) => {
@@ -62,6 +62,51 @@ exports.actualizarProducto = async (req, res) => {
 
   await Productitos.findOneAndUpdate(editarid, actualizar);// Se utiliza un método que recibe los dos parámetros anteriormente declarados.
   res.redirect('/api/v1/administrarProductos');
+};
+
+// CRUD VENTAS
+exports.mostrarAdminVentas = async (req, res) => {
+  const listadoVentas = await Ventitas.find(); // se declara una constante donde busca en mongodb
+  res.render('accionesVentas', {
+    ventas: listadoVentas // muestra el listado que se declaró en la constante.
+  });
+};
+exports.crearVenta = async (req, res) => {
+  const productosVendidos = JSON.parse(req.body.campoProductos);
+  const fecha = Date.now();
+  let subtotalVenta = 0;
+  let impuesto = 0;
+  productosVendidos.forEach(producto => {
+    subtotalVenta += producto.precio * producto.cantidad;
+  });
+  impuesto = subtotalVenta * 0.19;
+
+  const venta = new Ventitas({ // Se declara una constante que extrae cada dato desde los nombres que tienen los campos del formulario respectivos.
+    ProductosVenta: productosVendidos,
+    SubtotalVenta: subtotalVenta,
+    FechaVenta: fecha,
+    Impuesto: impuesto,
+    TotalVenta: subtotalVenta + impuesto
+  });
+  venta.save();// guarda la constante que contiene el objeto
+  res.redirect('/api/v1/administrarVentas');
+};
+exports.eliminarVenta = async (req, res) => {
+  const id = req.params._id; // Se declara un id y de donde se extrae el parámetro.
+  await Ventitas.findOneAndDelete({ _id: id }); // se se utiliza un método que busca el id que declaramos anteriormente
+  res.redirect('/api/v1/administrarVentas');
+};
+exports.actualizarVenta = async (req, res) => {
+  const editarid = { _id: req.body.campoId };// Se declara una constante con el dato que se utilizará para determinar el documento a actualizar
+  const actualizar = {
+    ProductosVenta: JSON.parse(req.body.campoProductosact), // Se declara la constante con los datos a editar.
+    SubtotalVenta: req.body.campoSubtotalact,
+    FechaVenta: req.body.campoFechaact,
+    TotalVenta: req.body.campoTotalact
+  };
+
+  await Ventitas.findOneAndUpdate(editarid, actualizar);// Se utiliza un método que recibe los dos parámetros anteriormente declarados.
+  res.redirect('/api/v1/administrarVentas');
 };
 
 // VISTA VENDEDORES
