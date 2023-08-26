@@ -102,7 +102,7 @@ exports.crearUsuario = async (req, res) => {
       ubicacion: {
         centro: [23, 45]
       },
-      correo,
+      correo: req.body.correoregistrar,
       contrasena: contrasenaEncriptada
     });
     console.log(nuevoCliente);
@@ -115,6 +115,28 @@ exports.crearUsuario = async (req, res) => {
       habilitado: true
     });
     await usuarioCliente.save();
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'lauraacostacd1@gmail.com',
+        pass: process.env.PASSWORDVERIFICACION
+      }
+    });
+    const mailOptions = {
+      from: 'lauraacostacd1@gmail.com',
+      to: correo,
+      subject: 'BIENVENIDO A KARIBIK!',
+      text: `Hola ${nuevoCliente.nombre},
+      Gracias por registrarte, ahora eres parte de un selecto grupo de personas que serán las primeras en conocer todas nuestras novedades, eventos y ofertas!
+      `
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
     return res.render('ingresarPerfil', { cliente: nuevoCliente });
   }
 };
